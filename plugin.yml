@@ -3,3 +3,8 @@ version: 0.1
 main: com.dre.managerxl.P
 authors: [Frank Baumann, Tobias Schmitz, Joscha Schmitz]
 softdepend: [Vault]
+commands:
+ ban:
+  description: Ban a Player
+ unban:
+  description: Unban a Player
