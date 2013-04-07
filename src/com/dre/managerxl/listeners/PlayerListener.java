@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.dre.managerxl.MPlayer;
 import com.dre.managerxl.P;
+import com.dre.managerxl.util.MUtility;
 
 public class PlayerListener implements Listener{
 	
@@ -18,7 +19,11 @@ public class PlayerListener implements Listener{
 		
 		if(player != null){
 			if(player.isBanned()){
-				event.disallow(Result.KICK_OTHER, P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_Ban", player.getBannedReason())));
+				if(player.getUntilUnBannedTime() > 0){
+					event.disallow(Result.KICK_OTHER, P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_TimeBan", player.getBannedReason(), MUtility.getIntTimeToString(player.getUntilUnBannedTime()))));
+				} else {
+					event.disallow(Result.KICK_OTHER, P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_Ban", player.getBannedReason())));
+				}
 			}
 		}
 	}

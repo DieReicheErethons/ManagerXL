@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import com.dre.managerxl.P;
 import com.dre.managerxl.commands.player.Ban;
+import com.dre.managerxl.commands.player.TimeBan;
 import com.dre.managerxl.commands.player.Unban;
 
 public abstract class MCommand {
@@ -69,6 +70,7 @@ public abstract class MCommand {
 		// PlayerCommands
 		new Ban();
 		new Unban();
+		new TimeBan();
 	}
 	
 	public static Set<MCommand> get(){

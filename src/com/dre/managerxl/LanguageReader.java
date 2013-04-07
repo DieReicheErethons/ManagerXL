@@ -43,25 +43,34 @@ public class LanguageReader {
 		defaults.put("Log_Error_PlayersLoaded", "Spieler konnten nicht geladen werden!");
 		
 		/* Help */
-		defaults.put("Help_Ban", "");
-		defaults.put("Help_UnBan", "");
+		defaults.put("Help_Ban", "/ban <player> <reason> - Bannt einen Spieler");
+		defaults.put("Help_TimeBan", "/timeban <player> <time> <reason> - Bannt einen Spieler für eine bestimmte Zeit");
+		defaults.put("Help_UnBan", "/unban <player> - Entbannt einen Spieler");
 		
 		/* Player */
-		defaults.put("Player_Kick_Ban", "&4Du wurdest gebannt wegen &6&v1&4!");
+		defaults.put("Player_Kick_Ban", "&4Du wurdest gebannt. Grund: &6&v1");
+		defaults.put("Player_Kick_TimeBan", "&4Du wurdest gebannt für &6&v2&4. Grund: &6&v1");
 		
 		/* CMDs */
-		defaults.put("Cmd_Ban_Success", "");
-		defaults.put("Cmd_Ban_DefaultReason", "");
-		defaults.put("Cmd_UnBan_Success", "");
+		defaults.put("Cmd_Ban_Success", "&6Spieler &4&v1&6 wurde erfolgreich gebannt!");
+		defaults.put("Cmd_Ban_DefaultReason", "Du hast gegen die Regeln verstossen!");
+		defaults.put("Cmd_TimeBan_Success", "&6Spieler &4&v1&6 wurde erfolgreich für &4&v2&6 gebannt!");
+		defaults.put("Cmd_UnBan_Success", "&6Spieler &4&v1&6 wurde erfolgreich entbannt!");
 		
 		/* Errors */
 		defaults.put("Error_NoPermissions","&4Du hast keine Erlaubnis dies zu tun!");
-		defaults.put("Error_CmdBan_AlreadyBanned", "");
-		defaults.put("Error_CmdBan_NotBanned", "");
+		defaults.put("Error_CmdBan_AlreadyBanned", "&4Spieler &6&v1&4 ist schon gebannt!");
+		defaults.put("Error_CmdBan_NotBanned", "&4Spieler &6&v1&4 ist nicht gebannt!");
 		defaults.put("Error_NoPlayerCommand", "&6/mxl &v1&4 kann man nicht als Spieler ausführen!");
 		defaults.put("Error_NoPermissions", "&4Du hast keine Erlaubnis dies zu tun!");
 		defaults.put("Error_CmdNotExist1","&4Befehl &6&v1&4 existiert nicht!");
 		defaults.put("Error_CmdNotExist2","&4Bitte gib &6/mxl help&4 für Hilfe ein!");
+		
+		/* Format */
+		defaults.put("Format_Days","Tage");
+		defaults.put("Format_Hours", "Stunden");
+		defaults.put("Format_Minutes", "Minuten");
+		defaults.put("Format_Seconds", "Sekunden");
 	}
 
 	private void check(){
@@ -111,6 +120,8 @@ public class LanguageReader {
 					entry = entry.replace("&v"+i, arg);
 				}
 			}
+		} else {
+			entry = "%placeholder%";
 		}
 
 		return entry;

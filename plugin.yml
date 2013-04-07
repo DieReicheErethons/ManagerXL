@@ -8,3 +8,5 @@ commands:
   description: Ban a Player
  unban:
   description: Unban a Player
+ timeban:
+  description: Ban a Player for a specific time

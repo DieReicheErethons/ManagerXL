@@ -28,20 +28,34 @@ public class MPlayer {
 	public void setOnline(boolean online) {isOnline = online;}
 	
 	private boolean isBanned;
-	public boolean isBanned() {return isBanned;}
+	public boolean isBanned() {
+		if(getBannedTime() > 0){
+			if(getUntilUnBannedTime() <= 0){
+				isBanned = false;
+				setBannedTime(0);
+			}
+		}
+		
+		return isBanned;
+	}
 	public void setBanned(boolean banned){
 		isBanned = banned;
 		
 		if(isBanned){
 			if(isOnline()){
-				getPlayer().kickPlayer(P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_Ban", this.getBannedReason())));
+				if(getBannedTime() > 0){
+					getPlayer().kickPlayer(P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_TimeBan", this.getBannedReason(), "" + this.getBannedTime())));
+				} else {
+					getPlayer().kickPlayer(P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_Ban", this.getBannedReason())));
+				}
 			}
 		}
 	}
 	
-	private int bannedTime;
-	public void setBannedTime(int bannedTime) {this.bannedTime = bannedTime;}
-	public int getBannedTime() {return bannedTime;}
+	private long bannedTime;
+	public void setBannedTime(long l) {this.bannedTime = l;}
+	public long getBannedTime() {return bannedTime;}
+	public long getUntilUnBannedTime() {return bannedTime - System.currentTimeMillis();}
 	
 	private String bannedReason;
 	public void setBannedReason(String bannedReason) {this.bannedReason = bannedReason;}

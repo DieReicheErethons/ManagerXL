@@ -7,37 +7,39 @@ import com.dre.managerxl.P;
 import com.dre.managerxl.commands.MCommand;
 import com.dre.managerxl.util.MUtility;
 
-public class Ban extends MCommand{
+public class TimeBan extends MCommand{
 	
-	public Ban(){
-		this.command = "ban";
+	public TimeBan(){
+		this.command = "timeban";
 		this.parrent = null;
-		this.help = P.p.getLanguageReader().get("Help_Ban");
-		this.permission = "mxl.cmd.player.ban";
+		this.help = P.p.getLanguageReader().get("Help_TimeBan");
+		this.permission = "mxl.cmd.player.timeban";
 		
 		this.isConsoleCommand = true;
 		this.isPlayerCommand = true;
 		
 		this.init();
 	}
-	
+
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
-		if(args.length > 0){
+		if(args.length > 1){
 			MPlayer player = MPlayer.getOrCreate(args[0]);
 			
 			if(!player.isBanned()){
-				String message = MUtility.parseMessage(args, 1);
+				String message = MUtility.parseMessage(args, 2);
 				
 				if(message.isEmpty()){
 					message = P.p.getLanguageReader().get("Cmd_Ban_DefaultReason");
 				}
 				
+				int time = MUtility.getStringTimeToInt(args[1]);
+				
+				player.setBannedTime(System.currentTimeMillis() + time);
 				player.setBannedReason(message);
-				player.setBannedTime(0);
 				player.setBanned(true);
 				
-				P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Ban_Success", player.getName()));
+				P.p.msg(sender, P.p.getLanguageReader().get("Cmd_TimeBan_Success", player.getName(), MUtility.getIntTimeToString(time)));
 			} else {
 				P.p.msg(sender, P.p.getLanguageReader().get("Error_CmdBan_AlreadyBanned", player.getName()));
 			}
@@ -45,4 +47,5 @@ public class Ban extends MCommand{
 			P.p.msg(sender, this.help);
 		}
 	}
+
 }
