@@ -56,15 +56,19 @@ public class LanguageReader {
 		defaults.put("Cmd_Ban_DefaultReason", "Du hast gegen die Regeln verstossen!");
 		defaults.put("Cmd_TimeBan_Success", "&6Spieler &4&v1&6 wurde erfolgreich für &4&v2&6 gebannt!");
 		defaults.put("Cmd_UnBan_Success", "&6Spieler &4&v1&6 wurde erfolgreich entbannt!");
+		defaults.put("Cmd_SetHome_Success", "&6Home wurde gesetzt!");
 		
 		/* Errors */
 		defaults.put("Error_NoPermissions","&4Du hast keine Erlaubnis dies zu tun!");
+		defaults.put("Error_PlayerNotExist","&4Spieler &6&v1&4 existiert nicht!");
 		defaults.put("Error_CmdBan_AlreadyBanned", "&4Spieler &6&v1&4 ist schon gebannt!");
 		defaults.put("Error_CmdBan_NotBanned", "&4Spieler &6&v1&4 ist nicht gebannt!");
 		defaults.put("Error_NoPlayerCommand", "&6/mxl &v1&4 kann man nicht als Spieler ausführen!");
 		defaults.put("Error_NoPermissions", "&4Du hast keine Erlaubnis dies zu tun!");
 		defaults.put("Error_CmdNotExist1","&4Befehl &6&v1&4 existiert nicht!");
 		defaults.put("Error_CmdNotExist2","&4Bitte gib &6/mxl help&4 für Hilfe ein!");
+		defaults.put("Error_CmdHome_NoHome","&4Du hast noch kein Home gesetzt. Benutze bitte zuerst &6/sethome&4!");
+		defaults.put("Error_CmdHome_NoHome2","&6&v1&4 hat noch kein Home gesetzt!");
 		
 		/* Format */
 		defaults.put("Format_Days","Tage");

@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -61,6 +66,10 @@ public class MPlayer {
 	public void setBannedReason(String bannedReason) {this.bannedReason = bannedReason;}
 	public String getBannedReason() {return bannedReason;}
 	
+	private Location home;
+	public Location getHome() {return home;}
+	public void setHome(Location home) {this.home = home;}
+	
 	public MPlayer(String name){
 		mPlayers.add(this);
 		
@@ -100,6 +109,14 @@ public class MPlayer {
 			ymlFile.set(player.getName()+".isBanned", player.isBanned());
 			ymlFile.set(player.getName()+".bannedTime", player.getBannedTime());
 			ymlFile.set(player.getName()+".bannedReason", player.getBannedReason());
+			
+			/* Location */
+			ymlFile.set(player.getName()+".home.x", player.getHome().getX());
+			ymlFile.set(player.getName()+".home.y", player.getHome().getY());
+			ymlFile.set(player.getName()+".home.z", player.getHome().getZ());
+			ymlFile.set(player.getName()+".home.yaw", (int) player.getHome().getYaw());
+			ymlFile.set(player.getName()+".home.pitch", (int) player.getHome().getPitch());
+			ymlFile.set(player.getName()+".home.world", player.getHome().getWorld().getName());
 		}
 		
 		try {
@@ -121,6 +138,19 @@ public class MPlayer {
 			mPlayer.setBanned(ymlFile.getBoolean(name+".isBanned"));
 			mPlayer.setBannedTime(ymlFile.getInt(name+".bannedTime"));
 			mPlayer.setBannedReason(ymlFile.getString(name+".bannedReason"));
+			
+			/* Location */
+			World world = Bukkit.getWorld(ymlFile.getString(name+".home.world"));
+			if(world != null){
+				Location loc = new Location(
+						world, 
+						ymlFile.getDouble(name+".home.x"), 
+						ymlFile.getDouble(name+".home.y"), 
+						ymlFile.getDouble(name+".home.z"), 
+						ymlFile.getInt(name+".home.pitch"),
+						ymlFile.getInt(name+".home.yaw"));
+				mPlayer.setHome(loc);
+			}
 		}
 		
 		return true;

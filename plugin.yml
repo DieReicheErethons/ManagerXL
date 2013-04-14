@@ -10,3 +10,7 @@ commands:
   description: Unban a Player
  timeban:
   description: Ban a Player for a specific time
+ home:
+  description: Takes you to your Home
+ sethome:
+  description: Set your Home
