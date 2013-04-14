@@ -39,7 +39,7 @@ public class Home extends MCommand{
 				if (oPlayer.getHome() != null){
 					player.teleport(oPlayer.getHome());
 				} else {
-					P.p.msg(player, P.p.getLanguageReader().get("Error_CmdHome_NoHome2", args[0]));
+					P.p.msg(player, P.p.getLanguageReader().get("Error_CmdHome_NoHome2", args[0])); 
 				}
 			} else {
 				P.p.msg(player, P.p.getLanguageReader().get("Error_PlayerNotExist", args[0]));
