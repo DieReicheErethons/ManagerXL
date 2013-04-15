@@ -11,6 +11,7 @@ import com.dre.managerxl.commands.player.Ban;
 import com.dre.managerxl.commands.player.Home;
 import com.dre.managerxl.commands.player.Kick;
 import com.dre.managerxl.commands.player.KickAll;
+import com.dre.managerxl.commands.player.Mute;
 import com.dre.managerxl.commands.player.SetHome;
 import com.dre.managerxl.commands.player.TimeBan;
 import com.dre.managerxl.commands.player.Unban;
@@ -79,6 +80,7 @@ public abstract class MCommand {
 		new SetHome();
 		new Kick();
 		new KickAll();
+		new Mute();
 	}
 	
 	public static Set<MCommand> get(){

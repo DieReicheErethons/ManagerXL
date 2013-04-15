@@ -70,10 +70,18 @@ public class MPlayer {
 	public Location getHome() {return home;}
 	public void setHome(Location home) {this.home = home;}
 	
+	private boolean isMuted;
+	public boolean isMuted() {return isMuted;}
+	public void setMuted(boolean isMuted) {this.isMuted = isMuted;}
+	
 	public MPlayer(String name){
 		mPlayers.add(this);
 		
 		this.name = name;
+		
+		if(Bukkit.getPlayer(name) != null){
+			this.setOnline(true);
+		}
 	}
 	
 	//Statics
@@ -106,17 +114,23 @@ public class MPlayer {
 		FileConfiguration ymlFile = new YamlConfiguration();
 		
 		for(MPlayer player : MPlayer.get()){
+			/* Ban */
 			ymlFile.set(player.getName()+".isBanned", player.isBanned());
 			ymlFile.set(player.getName()+".bannedTime", player.getBannedTime());
-			ymlFile.set(player.getName()+".bannedReason", player.getBannedReason());
+			if(player.getBannedReason() != null) ymlFile.set(player.getName()+".bannedReason", player.getBannedReason());
 			
-			/* Location */
-			ymlFile.set(player.getName()+".home.x", player.getHome().getX());
-			ymlFile.set(player.getName()+".home.y", player.getHome().getY());
-			ymlFile.set(player.getName()+".home.z", player.getHome().getZ());
-			ymlFile.set(player.getName()+".home.yaw", (int) player.getHome().getYaw());
-			ymlFile.set(player.getName()+".home.pitch", (int) player.getHome().getPitch());
-			ymlFile.set(player.getName()+".home.world", player.getHome().getWorld().getName());
+			/* Mute */
+			ymlFile.set(player.getName()+".isMuted", player.isMuted());
+			
+			/* Home */
+			if(player.getHome() != null){
+				ymlFile.set(player.getName()+".home.x", player.getHome().getX());
+				ymlFile.set(player.getName()+".home.y", player.getHome().getY());
+				ymlFile.set(player.getName()+".home.z", player.getHome().getZ());
+				ymlFile.set(player.getName()+".home.pitch", (int) player.getHome().getPitch());
+				ymlFile.set(player.getName()+".home.yaw", (int) player.getHome().getYaw());
+				ymlFile.set(player.getName()+".home.world", player.getHome().getWorld().getName());
+			}
 		}
 		
 		try {
@@ -135,21 +149,28 @@ public class MPlayer {
 		
 		for(String name : keys){
 			MPlayer mPlayer = new MPlayer(name);
+			
+			/* Ban */
 			mPlayer.setBanned(ymlFile.getBoolean(name+".isBanned"));
 			mPlayer.setBannedTime(ymlFile.getInt(name+".bannedTime"));
 			mPlayer.setBannedReason(ymlFile.getString(name+".bannedReason"));
 			
+			/* Mute */
+			mPlayer.setMuted(ymlFile.getBoolean(name+".isMuted"));
+			
 			/* Location */
-			World world = Bukkit.getWorld(ymlFile.getString(name+".home.world"));
-			if(world != null){
-				Location loc = new Location(
-						world, 
-						ymlFile.getDouble(name+".home.x"), 
-						ymlFile.getDouble(name+".home.y"), 
-						ymlFile.getDouble(name+".home.z"), 
-						ymlFile.getInt(name+".home.pitch"),
-						ymlFile.getInt(name+".home.yaw"));
-				mPlayer.setHome(loc);
+			if(ymlFile.contains(name+".home")){
+				World world = Bukkit.getWorld(ymlFile.getString(name+".home.world"));
+				if(world != null){
+					Location loc = new Location(
+							world, 
+							ymlFile.getDouble(name+".home.x"), 
+							ymlFile.getDouble(name+".home.y"), 
+							ymlFile.getDouble(name+".home.z"), 
+							ymlFile.getInt(name+".home.pitch"),
+							ymlFile.getInt(name+".home.yaw"));
+					mPlayer.setHome(loc);
+				}
 			}
 		}
 		

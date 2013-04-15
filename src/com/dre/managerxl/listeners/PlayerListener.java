@@ -2,6 +2,7 @@ package com.dre.managerxl.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
@@ -49,5 +50,15 @@ public class PlayerListener implements Listener{
 		}
 		
 		player.setOnline(false);
+	}
+	
+	@EventHandler()
+	public void onAsyncPlayerChat(AsyncPlayerChatEvent event){
+		MPlayer mPlayer = MPlayer.getOrCreate(event.getPlayer().getName());
+		
+		if(mPlayer.isMuted()){
+			P.p.msg(event.getPlayer(), P.p.getLanguageReader().get("Player_Muted"));
+			event.setCancelled(true);
+		}
 	}
 }

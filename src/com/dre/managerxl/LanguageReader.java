@@ -50,10 +50,12 @@ public class LanguageReader {
 		defaults.put("Help_SetHome", "/sethome - Setze dein eigenes Home");
 		defaults.put("Help_Kick", "/kick <player> [reason] - Kicke einen Spieler");
 		defaults.put("Help_KickAll", "/kickall [reason] - Kickt alle Spieler");
+		defaults.put("Help_Mute", "/mute <player> - Muted einen Spieler");
 		
 		/* Player */
 		defaults.put("Player_Kick_Ban", "&4Du wurdest gebannt. Grund: &6&v1");
 		defaults.put("Player_Kick_TimeBan", "&4Du wurdest gebannt für &6&v2&4. Grund: &6&v1");
+		defaults.put("Player_Muted", "&4Du bist gemuted!");
 		
 		/* CMDs */
 		defaults.put("Cmd_Ban_Success", "&6Spieler &4&v1&6 wurde erfolgreich gebannt!");
@@ -65,6 +67,10 @@ public class LanguageReader {
 		defaults.put("Cmd_Kick", "&4Du wurdest von &6&v1&4 gekickt! Grund: &6&v2");
 		defaults.put("Cmd_KickAll_NoReason", "&4Alle Spieler wurden von &6&v1&4 gekickt!");
 		defaults.put("Cmd_KickAll", "&4Alle Spieler wurden von &6&v1&4 gekickt! Grund: &6&v2");
+		defaults.put("Cmd_Mute_UnMuted", "&6Spieler &4&v1&6 wurde entmuted!");
+		defaults.put("Cmd_Mute_TargetUnMuted", "&6Du wurdest von &4&v1&6 entmuted!");
+		defaults.put("Cmd_Mute_Muted", "&6Spieler &4&v1&6 wurde gemuted!");
+		defaults.put("Cmd_Mute_TargeMuted", "&4Du wurdest von &6&v1&4 gemuted!");
 		
 		/* Errors */
 		defaults.put("Error_NoPermissions","&4Du hast keine Erlaubnis dies zu tun!");
