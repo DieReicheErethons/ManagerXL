@@ -46,6 +46,10 @@ public class LanguageReader {
 		defaults.put("Help_Ban", "/ban <player> <reason> - Bannt einen Spieler");
 		defaults.put("Help_TimeBan", "/timeban <player> <time> <reason> - Bannt einen Spieler für eine bestimmte Zeit");
 		defaults.put("Help_UnBan", "/unban <player> - Entbannt einen Spieler");
+		defaults.put("Help_Home", "/home [player] - Teleportiere dich zu deinem Home oder das eines Spielers");
+		defaults.put("Help_SetHome", "/sethome - Setze dein eigenes Home");
+		defaults.put("Help_Kick", "/kick <player> [reason] - Kicke einen Spieler");
+		defaults.put("Help_KickAll", "/kickall [reason] - Kickt alle Spieler");
 		
 		/* Player */
 		defaults.put("Player_Kick_Ban", "&4Du wurdest gebannt. Grund: &6&v1");
@@ -57,6 +61,10 @@ public class LanguageReader {
 		defaults.put("Cmd_TimeBan_Success", "&6Spieler &4&v1&6 wurde erfolgreich für &4&v2&6 gebannt!");
 		defaults.put("Cmd_UnBan_Success", "&6Spieler &4&v1&6 wurde erfolgreich entbannt!");
 		defaults.put("Cmd_SetHome_Success", "&6Home wurde gesetzt!");
+		defaults.put("Cmd_Kick_NoReason", "&4Du wurdest von &6&v1&4 gekickt!");
+		defaults.put("Cmd_Kick", "&4Du wurdest von &6&v1&4 gekickt! Grund: &6&v2");
+		defaults.put("Cmd_KickAll_NoReason", "&4Alle Spieler wurden von &6&v1&4 gekickt!");
+		defaults.put("Cmd_KickAll", "&4Alle Spieler wurden von &6&v1&4 gekickt! Grund: &6&v2");
 		
 		/* Errors */
 		defaults.put("Error_NoPermissions","&4Du hast keine Erlaubnis dies zu tun!");

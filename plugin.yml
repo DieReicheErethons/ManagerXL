@@ -14,3 +14,7 @@ commands:
   description: Takes you to your Home
  sethome:
   description: Set your Home
+ kick:
+  description: Kick a player
+ kickall:
+  description: Kick all players

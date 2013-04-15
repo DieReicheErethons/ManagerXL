@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import com.dre.managerxl.P;
 import com.dre.managerxl.commands.player.Ban;
 import com.dre.managerxl.commands.player.Home;
+import com.dre.managerxl.commands.player.Kick;
+import com.dre.managerxl.commands.player.KickAll;
 import com.dre.managerxl.commands.player.SetHome;
 import com.dre.managerxl.commands.player.TimeBan;
 import com.dre.managerxl.commands.player.Unban;
@@ -75,6 +77,8 @@ public abstract class MCommand {
 		new TimeBan();
 		new Home();
 		new SetHome();
+		new Kick();
+		new KickAll();
 	}
 	
 	public static Set<MCommand> get(){
