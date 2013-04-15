@@ -20,3 +20,6 @@ commands:
   description: Kick all players
  mute:
   description: Un/Mute a player
+ gamemode:
+  aliases: [gm]
+  description: Set the GameMode of a player

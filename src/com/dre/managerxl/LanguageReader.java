@@ -51,11 +51,14 @@ public class LanguageReader {
 		defaults.put("Help_Kick", "/kick <player> [reason] - Kicke einen Spieler");
 		defaults.put("Help_KickAll", "/kickall [reason] - Kickt alle Spieler");
 		defaults.put("Help_Mute", "/mute <player> - Muted einen Spieler");
+		defaults.put("Help_GameMode", "/gamemode [player] [mode] - Setzt/Wechselt den GameMode eines Spielers");
 		
 		/* Player */
 		defaults.put("Player_Kick_Ban", "&4Du wurdest gebannt. Grund: &6&v1");
 		defaults.put("Player_Kick_TimeBan", "&4Du wurdest gebannt für &6&v2&4. Grund: &6&v1");
 		defaults.put("Player_Muted", "&4Du bist gemuted!");
+		defaults.put("Player_GameModeChanged", "&6Dein GameMode hat sich in &4&v1&6 geändert!");
+		defaults.put("Player_TargetGameModeChanged", "&4&v2's&6 GameMode hat sich in &4&v1&6 geändert!");
 		
 		/* CMDs */
 		defaults.put("Cmd_Ban_Success", "&6Spieler &4&v1&6 wurde erfolgreich gebannt!");
@@ -83,6 +86,7 @@ public class LanguageReader {
 		defaults.put("Error_CmdNotExist2","&4Bitte gib &6/mxl help&4 für Hilfe ein!");
 		defaults.put("Error_CmdHome_NoHome","&4Du hast noch kein Home gesetzt. Benutze bitte zuerst &6/sethome&4!");
 		defaults.put("Error_CmdHome_NoHome2","&6&v1&4 hat noch kein Home gesetzt!");
+		defaults.put("Error_CmdGameMode_NotExist","&4GameMode &6&v1&4 existiert nicht!");
 		
 		/* Format */
 		defaults.put("Format_Days","Tage");

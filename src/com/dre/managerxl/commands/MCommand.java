@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import com.dre.managerxl.P;
 import com.dre.managerxl.commands.player.Ban;
+import com.dre.managerxl.commands.player.GameMode;
 import com.dre.managerxl.commands.player.Home;
 import com.dre.managerxl.commands.player.Kick;
 import com.dre.managerxl.commands.player.KickAll;
@@ -81,6 +82,7 @@ public abstract class MCommand {
 		new Kick();
 		new KickAll();
 		new Mute();
+		new GameMode();
 	}
 	
 	public static Set<MCommand> get(){

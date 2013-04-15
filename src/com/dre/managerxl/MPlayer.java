@@ -74,6 +74,24 @@ public class MPlayer {
 	public boolean isMuted() {return isMuted;}
 	public void setMuted(boolean isMuted) {this.isMuted = isMuted;}
 	
+	private int gameMode = 0;
+	public int getGameMode() {return gameMode;}
+	public boolean setGameMode(int gameMode) {
+		org.bukkit.GameMode gm = org.bukkit.GameMode.getByValue(gameMode);
+		if(gm != null){
+			this.gameMode = gameMode;
+
+			if(this.getPlayer() != null){
+				this.getPlayer().setGameMode(gm);
+				P.p.msg(this.getPlayer(), P.p.getLanguageReader().get("Player_GameModeChanged", gm.name()));
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public MPlayer(String name){
 		mPlayers.add(this);
 		
@@ -122,6 +140,9 @@ public class MPlayer {
 			/* Mute */
 			ymlFile.set(player.getName()+".isMuted", player.isMuted());
 			
+			/* GameMode */
+			ymlFile.set(player.getName()+".GameMode", player.getGameMode());
+			
 			/* Home */
 			if(player.getHome() != null){
 				ymlFile.set(player.getName()+".home.x", player.getHome().getX());
@@ -158,6 +179,9 @@ public class MPlayer {
 			/* Mute */
 			mPlayer.setMuted(ymlFile.getBoolean(name+".isMuted"));
 			
+			/* GameMode */
+			mPlayer.setGameMode(ymlFile.getInt(name+".GameMode"));
+			
 			/* Location */
 			if(ymlFile.contains(name+".home")){
 				World world = Bukkit.getWorld(ymlFile.getString(name+".home.world"));
@@ -176,4 +200,5 @@ public class MPlayer {
 		
 		return true;
 	}
+
 }

@@ -31,13 +31,10 @@ public class PlayerListener implements Listener{
 	
 	@EventHandler()
 	public void onPlayerJoin(PlayerJoinEvent event){
-		MPlayer player = MPlayer.get(event.getPlayer().getName());
-		
-		if(player == null){
-			player = new MPlayer(event.getPlayer().getName());
-		}
+		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getName());
 		
 		player.setOnline(true);
+		player.setGameMode(player.getGameMode());
 	}
 	
 	
