@@ -92,7 +92,7 @@ public class MPlayer {
 		return false;
 	}
 	
-	private boolean isVisible;
+	private boolean isVisible = true;
 	public boolean isVisible() { return this.isVisible; }
 	public void setVisible(boolean isVisible) {
 		if(this.getPlayer() != null){
@@ -102,12 +102,12 @@ public class MPlayer {
 				} else {
 					player.hidePlayer(this.getPlayer());
 				}
-				
-				//Dynmap
-				if(P.p.dynmap != null){
-					P.p.dynmap.assertPlayerInvisibility(player.getName(), true, "ManagerXL");
-				}
 			}
+		}
+		
+		//Dynmap
+		if(P.p.dynmap != null){
+			P.p.dynmap.assertPlayerInvisibility(this.getName(), !isVisible, "ManagerXL");
 		}
 		
 		this.isVisible = isVisible; 

@@ -42,8 +42,18 @@ public class PlayerListener implements Listener{
 		if(!player.isVisible()){
 			for(Player oPlayer : Bukkit.getOnlinePlayers()){
 				oPlayer.hidePlayer(player.getPlayer());
+				MPlayer omPlayer = MPlayer.getOrCreate(oPlayer.getName());
+				if(!omPlayer.isVisible()){
+					player.getPlayer().hidePlayer(oPlayer);
+				}
 			}
 		}
+		
+		//Set invisible for Dynmap
+		if(P.p.dynmap != null){
+			P.p.dynmap.assertPlayerInvisibility(player.getName(), !player.isVisible(), "ManagerXL");
+		}
+		
 	}
 	
 	
