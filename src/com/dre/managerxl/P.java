@@ -9,8 +9,10 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.dynmap.DynmapCommonAPI;
 
 import com.dre.managerxl.commands.MCommand;
 import com.dre.managerxl.listeners.PlayerListener;
@@ -18,6 +20,9 @@ import com.dre.managerxl.listeners.ServerListener;
 
 public class P extends JavaPlugin{
 	public static P p;
+	
+	/* Other Plugins */
+	public DynmapCommonAPI dynmap;
 	
 	/* Language Reader */
 	private LanguageReader languageReader;
@@ -49,6 +54,12 @@ public class P extends JavaPlugin{
 		
 		//Load
 		LoadAll();
+		
+		//Check Dynmap
+		Plugin dynmapPlugin = Bukkit.getPluginManager().getPlugin("dynmap");
+		if(dynmapPlugin != null){
+			dynmap = ((DynmapCommonAPI) dynmapPlugin);
+		}
 	}
 	
 	@Override

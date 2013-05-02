@@ -102,6 +102,11 @@ public class MPlayer {
 				} else {
 					player.hidePlayer(this.getPlayer());
 				}
+				
+				//Dynmap
+				if(P.p.dynmap != null){
+					P.p.dynmap.assertPlayerInvisibility(player.getName(), true, "ManagerXL");
+				}
 			}
 		}
 		
