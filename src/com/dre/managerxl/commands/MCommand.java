@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.dre.managerxl.P;
+import com.dre.managerxl.commands.managing.MotD;
+import com.dre.managerxl.commands.managing.MotDSet;
 import com.dre.managerxl.commands.player.Ban;
 import com.dre.managerxl.commands.player.GameMode;
 import com.dre.managerxl.commands.player.Home;
@@ -74,7 +76,11 @@ public abstract class MCommand {
 	//Static
 	public static void initCommands(){
 		
-		// PlayerCommands
+		//Managing commands
+		new MotD();
+		new MotDSet();
+		
+		//Player commands
 		new Ban();
 		new Unban();
 		new TimeBan();

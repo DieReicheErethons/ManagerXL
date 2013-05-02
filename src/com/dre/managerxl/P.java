@@ -14,16 +14,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.dre.managerxl.commands.MCommand;
 import com.dre.managerxl.listeners.PlayerListener;
+import com.dre.managerxl.listeners.ServerListener;
 
 public class P extends JavaPlugin{
 	public static P p;
 	
-	//Language Reader
+	/* Language Reader */
 	private LanguageReader languageReader;
 	public LanguageReader getLanguageReader(){
 		return languageReader;
 	}
 	
+	/* MotD */
+	private String motd = "";
+	public String getMotD() { return this.motd; }
+	public void setMotD(String motd) { this.motd = motd; }
 	
 	@Override
 	public void onEnable(){
@@ -35,8 +40,9 @@ public class P extends JavaPlugin{
 		//Setup Permissions
 		setupPermissions();
 		
-		// Init Listeners
+		//Init Listeners
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
+		Bukkit.getPluginManager().registerEvents(new ServerListener(), this);
 		
 		//Setup Commands
 		MCommand.initCommands();
@@ -62,11 +68,15 @@ public class P extends JavaPlugin{
 	}
 	
 	public void LoadAll(){
+		//Players
 		if(MPlayer.LoadAsYml(new File(this.getDataFolder(), "players.yml"))){
 			P.p.log(getLanguageReader().get("Log_PlayersLoaded"));
 		} else {
 			P.p.log(Level.WARNING, getLanguageReader().get("Log_Error_PlayersLoaded"));
 		}
+		
+		//MotD
+		motd = Bukkit.getMotd();
 	}
 	
 	//Msg

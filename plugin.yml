@@ -26,3 +26,8 @@ commands:
  invisible:
   aliases: [inv]
   description: Set the visibility of a player
+ motd:
+  description: Show the MotD of the server
+ motdset:
+  aliases: [motds]
+  description: Set the MotD of the server
