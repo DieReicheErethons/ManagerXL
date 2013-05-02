@@ -26,8 +26,20 @@ public class SetHome extends MCommand{
 		Player player = (Player) sender;
 		MPlayer mPlayer = MPlayer.getOrCreate(sender.getName());
 		
-		mPlayer.setHome(player.getLocation());
-		P.p.msg(player, P.p.getLanguageReader().get("Cmd_SetHome_Success"));
+		if(args.length < 1){
+			mPlayer.setHome(player.getLocation());
+			P.p.msg(player, P.p.getLanguageReader().get("Cmd_SetHome_Success"));
+		}else{
+			if (P.p.getPermissionHandler().has(sender, "mxl.cmd.player.sethomeother")){
+				MPlayer oPlayer = MPlayer.get(args[0]);
+				if (oPlayer != null){
+					oPlayer.setHome(player.getLocation());
+					P.p.msg(player, P.p.getLanguageReader().get("Cmd_SetHome_Success"));
+				} else {
+					P.p.msg(player, P.p.getLanguageReader().get("Error_PlayerNotExist", args[0]));
+				}
+			}
+		}
 	}
 
 }

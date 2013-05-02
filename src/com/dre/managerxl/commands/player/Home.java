@@ -34,15 +34,17 @@ public class Home extends MCommand{
 				P.p.msg(player, P.p.getLanguageReader().get("Error_CmdHome_NoHome"));
 			}
 		} else {
-			MPlayer oPlayer = MPlayer.get(args[0]);
-			if (oPlayer != null){
-				if (oPlayer.getHome() != null){
-					player.teleport(oPlayer.getHome());
+			if (P.p.getPermissionHandler().has(sender, "mxl.cmd.player.homeother")){
+				MPlayer oPlayer = MPlayer.get(args[0]);
+				if (oPlayer != null){
+					if (oPlayer.getHome() != null){
+						player.teleport(oPlayer.getHome());
+					} else {
+						P.p.msg(player, P.p.getLanguageReader().get("Error_CmdHome_NoHome2", args[0])); 
+					}
 				} else {
-					P.p.msg(player, P.p.getLanguageReader().get("Error_CmdHome_NoHome2", args[0])); 
+					P.p.msg(player, P.p.getLanguageReader().get("Error_PlayerNotExist", args[0]));
 				}
-			} else {
-				P.p.msg(player, P.p.getLanguageReader().get("Error_PlayerNotExist", args[0]));
 			}
 		}
 	}
