@@ -23,3 +23,6 @@ commands:
  gamemode:
   aliases: [gm]
   description: Set the GameMode of a player
+ invisible:
+  aliases: [inv]
+  description: Set the visibility of a player

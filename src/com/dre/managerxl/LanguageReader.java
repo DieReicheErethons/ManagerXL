@@ -52,6 +52,7 @@ public class LanguageReader {
 		defaults.put("Help_KickAll", "/kickall [reason] - Kickt alle Spieler");
 		defaults.put("Help_Mute", "/mute <player> - Muted einen Spieler");
 		defaults.put("Help_GameMode", "/gamemode [player] [mode] - Setzt/Wechselt den GameMode eines Spielers");
+		defaults.put("Help_Invisible", "/invisible [player] - Wechselt die Sichtbarkeit von dir oder einem Spieler");
 		
 		/* Player */
 		defaults.put("Player_Kick_Ban", "&4Du wurdest gebannt. Grund: &6&v1");
@@ -74,14 +75,18 @@ public class LanguageReader {
 		defaults.put("Cmd_Mute_TargetUnMuted", "&6Du wurdest von &4&v1&6 entmuted!");
 		defaults.put("Cmd_Mute_Muted", "&6Spieler &4&v1&6 wurde gemuted!");
 		defaults.put("Cmd_Mute_TargeMuted", "&4Du wurdest von &6&v1&4 gemuted!");
+		defaults.put("Cmd_Visible_Invisible", "&6Du bist nun unsichtbar!");
+		defaults.put("Cmd_Visible_Visible", "&6Du bist wieder sichtbar!");
+		defaults.put("Cmd_Visible_InvisibleOther", "Spieler &4&v1&6 ist nun unsichtbar!");
+		defaults.put("Cmd_Visible_VisibleOther", "Spieler &4&v1&6 ist wieder sichtbar!");
 		
 		/* Errors */
 		defaults.put("Error_NoPermissions","&4Du hast keine Erlaubnis dies zu tun!");
 		defaults.put("Error_PlayerNotExist","&4Spieler &6&v1&4 existiert nicht!");
 		defaults.put("Error_CmdBan_AlreadyBanned", "&4Spieler &6&v1&4 ist schon gebannt!");
 		defaults.put("Error_CmdBan_NotBanned", "&4Spieler &6&v1&4 ist nicht gebannt!");
+		defaults.put("Error_NoConsoleCommand", "&6/mxl &v1&4 kann man nicht als Konsole ausführen!");
 		defaults.put("Error_NoPlayerCommand", "&6/mxl &v1&4 kann man nicht als Spieler ausführen!");
-		defaults.put("Error_NoPermissions", "&4Du hast keine Erlaubnis dies zu tun!");
 		defaults.put("Error_CmdNotExist1","&4Befehl &6&v1&4 existiert nicht!");
 		defaults.put("Error_CmdNotExist2","&4Bitte gib &6/mxl help&4 für Hilfe ein!");
 		defaults.put("Error_CmdHome_NoHome","&4Du hast noch kein Home gesetzt. Benutze bitte zuerst &6/sethome&4!");

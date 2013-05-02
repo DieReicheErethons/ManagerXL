@@ -10,6 +10,7 @@ import com.dre.managerxl.P;
 import com.dre.managerxl.commands.player.Ban;
 import com.dre.managerxl.commands.player.GameMode;
 import com.dre.managerxl.commands.player.Home;
+import com.dre.managerxl.commands.player.Invisible;
 import com.dre.managerxl.commands.player.Kick;
 import com.dre.managerxl.commands.player.KickAll;
 import com.dre.managerxl.commands.player.Mute;
@@ -83,6 +84,7 @@ public abstract class MCommand {
 		new KickAll();
 		new Mute();
 		new GameMode();
+		new Invisible();
 	}
 	
 	public static Set<MCommand> get(){

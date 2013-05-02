@@ -92,6 +92,22 @@ public class MPlayer {
 		return false;
 	}
 	
+	private boolean isVisible;
+	public boolean isVisible() { return this.isVisible; }
+	public void setVisible(boolean isVisible) {
+		if(this.getPlayer() != null){
+			for (Player player :  Bukkit.getOnlinePlayers()){
+				if(isVisible){
+					player.showPlayer(this.getPlayer());
+				} else {
+					player.hidePlayer(this.getPlayer());
+				}
+			}
+		}
+		
+		this.isVisible = isVisible; 
+	}
+	
 	public MPlayer(String name){
 		mPlayers.add(this);
 		
@@ -152,6 +168,9 @@ public class MPlayer {
 				ymlFile.set(player.getName()+".home.yaw", (int) player.getHome().getYaw());
 				ymlFile.set(player.getName()+".home.world", player.getHome().getWorld().getName());
 			}
+			
+			/* Visible */
+			ymlFile.set(player.getName()+".isVisible", player.isVisible());
 		}
 		
 		try {
@@ -196,6 +215,9 @@ public class MPlayer {
 					mPlayer.setHome(loc);
 				}
 			}
+			
+			/* Visible */
+			mPlayer.setVisible(ymlFile.getBoolean(name+".isVisible"));
 		}
 		
 		return true;

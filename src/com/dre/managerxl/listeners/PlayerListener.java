@@ -1,5 +1,7 @@
 package com.dre.managerxl.listeners;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -35,6 +37,13 @@ public class PlayerListener implements Listener{
 		
 		player.setOnline(true);
 		player.setGameMode(player.getGameMode());
+		
+		//Set invisible Players
+		if(!player.isVisible()){
+			for(Player oPlayer : Bukkit.getOnlinePlayers()){
+				oPlayer.hidePlayer(player.getPlayer());
+			}
+		}
 	}
 	
 	
