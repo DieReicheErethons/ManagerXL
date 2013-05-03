@@ -1,10 +1,16 @@
 package com.dre.managerxl.listeners;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
@@ -75,6 +81,30 @@ public class PlayerListener implements Listener{
 		if(mPlayer.isMuted()){
 			P.p.msg(event.getPlayer(), P.p.getLanguageReader().get("Player_Muted"));
 			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler()
+	public void onPlayerInteract(PlayerInteractEvent event){
+		Player player = event.getPlayer();
+		
+		/* Teleport Compass */
+		if(P.p.getPermissionHandler().has(player, "mxl.tool.tpcompass")){
+			if(event.getItem().getType() == Material.COMPASS){
+				Location seeLocation = null;
+				List<Block> sight = player.getLastTwoTargetBlocks(null, 60);
+
+				for(Block block : sight){
+					if(block.getTypeId() != 0){
+						seeLocation = block.getLocation();
+						break;
+					}
+				}
+				
+				if(seeLocation != null){
+					player.teleport(seeLocation);
+				}
+			}
 		}
 	}
 }
