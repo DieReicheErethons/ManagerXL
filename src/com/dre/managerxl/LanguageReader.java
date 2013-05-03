@@ -10,13 +10,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class LanguageReader {
-	private Map<String,String> entries = new TreeMap<String,String>();
-	private Map<String,String> defaults = new TreeMap<String,String>();
+	private Map<String, String> entries = new TreeMap<String, String>();
+	private Map<String, String> defaults = new TreeMap<String, String>();
 
 	private File file;
 	private boolean changed;
 
-	public LanguageReader(File file){
+	public LanguageReader(File file) {
 		this.setDefaults();
 
 		/* Load */
@@ -25,7 +25,7 @@ public class LanguageReader {
 		FileConfiguration configFile = YamlConfiguration.loadConfiguration(file);
 
 		Set<String> keySet = configFile.getKeys(false);
-		for(String key:keySet){
+		for (String key : keySet) {
 			entries.put(key, configFile.getString(key));
 		}
 
@@ -33,15 +33,15 @@ public class LanguageReader {
 		this.check();
 	}
 
-	private void setDefaults(){
-		
+	private void setDefaults() {
+
 		/* Log */
 		defaults.put("Log_PlayersSaved", "Spieler gespeichert");
 		defaults.put("Log_PlayersLoaded", "Spieler geladen");
 		defaults.put("Log_Error_NoConsoleCommand", "&6mxl &v1&4 kann man nicht als Konsole ausführen!");
 		defaults.put("Log_Error_PlayersSaved", "Spieler konnten nicht gespeichert werden!");
 		defaults.put("Log_Error_PlayersLoaded", "Spieler konnten nicht geladen werden!");
-		
+
 		/* Help */
 		defaults.put("Help_Ban", "/ban <player> <reason> - Bannt einen Spieler");
 		defaults.put("Help_TimeBan", "/timeban <player> <time> <reason> - Bannt einen Spieler für eine bestimmte Zeit");
@@ -53,14 +53,14 @@ public class LanguageReader {
 		defaults.put("Help_Mute", "/mute <player> - Muted einen Spieler");
 		defaults.put("Help_GameMode", "/gamemode [player] [mode] - Setzt/Wechselt den GameMode eines Spielers");
 		defaults.put("Help_Invisible", "/invisible [player] - Wechselt die Sichtbarkeit von dir oder einem Spieler");
-		
+
 		/* Player */
 		defaults.put("Player_Kick_Ban", "&4Du wurdest gebannt. Grund: &6&v1");
 		defaults.put("Player_Kick_TimeBan", "&4Du wurdest gebannt für &6&v2&4. Grund: &6&v1");
 		defaults.put("Player_Muted", "&4Du bist gemuted!");
 		defaults.put("Player_GameModeChanged", "&6Dein GameMode hat sich in &4&v1&6 geändert!");
 		defaults.put("Player_TargetGameModeChanged", "&4&v2's&6 GameMode hat sich in &4&v1&6 geändert!");
-		
+
 		/* CMDs */
 		defaults.put("Cmd_Ban_Success", "&6Spieler &4&v1&6 wurde erfolgreich gebannt!");
 		defaults.put("Cmd_Ban_DefaultReason", "Du hast gegen die Regeln verstossen!");
@@ -79,52 +79,52 @@ public class LanguageReader {
 		defaults.put("Cmd_Visible_Visible", "&6Du bist wieder sichtbar!");
 		defaults.put("Cmd_Visible_InvisibleOther", "Spieler &4&v1&6 ist nun unsichtbar!");
 		defaults.put("Cmd_Visible_VisibleOther", "Spieler &4&v1&6 ist wieder sichtbar!");
-		
+
 		/* Errors */
-		defaults.put("Error_NoPermissions","&4Du hast keine Erlaubnis dies zu tun!");
-		defaults.put("Error_PlayerNotExist","&4Spieler &6&v1&4 existiert nicht!");
+		defaults.put("Error_NoPermissions", "&4Du hast keine Erlaubnis dies zu tun!");
+		defaults.put("Error_PlayerNotExist", "&4Spieler &6&v1&4 existiert nicht!");
 		defaults.put("Error_CmdBan_AlreadyBanned", "&4Spieler &6&v1&4 ist schon gebannt!");
 		defaults.put("Error_CmdBan_NotBanned", "&4Spieler &6&v1&4 ist nicht gebannt!");
 		defaults.put("Error_NoConsoleCommand", "&6/mxl &v1&4 kann man nicht als Konsole ausführen!");
 		defaults.put("Error_NoPlayerCommand", "&6/mxl &v1&4 kann man nicht als Spieler ausführen!");
-		defaults.put("Error_CmdNotExist1","&4Befehl &6&v1&4 existiert nicht!");
-		defaults.put("Error_CmdNotExist2","&4Bitte gib &6/mxl help&4 für Hilfe ein!");
-		defaults.put("Error_CmdHome_NoHome","&4Du hast noch kein Home gesetzt. Benutze bitte zuerst &6/sethome&4!");
-		defaults.put("Error_CmdHome_NoHome2","&6&v1&4 hat noch kein Home gesetzt!");
-		defaults.put("Error_CmdGameMode_NotExist","&4GameMode &6&v1&4 existiert nicht!");
-		
+		defaults.put("Error_CmdNotExist1", "&4Befehl &6&v1&4 existiert nicht!");
+		defaults.put("Error_CmdNotExist2", "&4Bitte gib &6/mxl help&4 für Hilfe ein!");
+		defaults.put("Error_CmdHome_NoHome", "&4Du hast noch kein Home gesetzt. Benutze bitte zuerst &6/sethome&4!");
+		defaults.put("Error_CmdHome_NoHome2", "&6&v1&4 hat noch kein Home gesetzt!");
+		defaults.put("Error_CmdGameMode_NotExist", "&4GameMode &6&v1&4 existiert nicht!");
+
 		/* Format */
-		defaults.put("Format_Days","Tage");
+		defaults.put("Format_Days", "Tage");
 		defaults.put("Format_Hours", "Stunden");
 		defaults.put("Format_Minutes", "Minuten");
 		defaults.put("Format_Seconds", "Sekunden");
 	}
 
-	private void check(){
-		for(String defaultEntry:defaults.keySet()){
-			if(!entries.containsKey(defaultEntry)){
-				entries.put(defaultEntry,defaults.get(defaultEntry));
+	private void check() {
+		for (String defaultEntry : defaults.keySet()) {
+			if (!entries.containsKey(defaultEntry)) {
+				entries.put(defaultEntry, defaults.get(defaultEntry));
 				changed = true;
 			}
 		}
 	}
 
-	public void save(){
-		if(changed){
+	public void save() {
+		if (changed) {
 			/* Copy old File */
 			File source = new File(file.getPath());
 			String filePath = file.getPath();
-			File temp = new File(filePath.substring(0,filePath.length()-4)+"_old.yml");
+			File temp = new File(filePath.substring(0, filePath.length() - 4) + "_old.yml");
 
-	        if(temp.exists())
-	            temp.delete();
+			if (temp.exists())
+				temp.delete();
 
-	        source.renameTo(temp);
+			source.renameTo(temp);
 
 			/* Save */
 			FileConfiguration configFile = new YamlConfiguration();
 
-			for(String key:entries.keySet()){
+			for (String key : entries.keySet()) {
 				configFile.set(key, entries.get(key));
 			}
 
@@ -136,15 +136,15 @@ public class LanguageReader {
 		}
 	}
 
-	public String get(String key, String... args){
+	public String get(String key, String... args) {
 		String entry = entries.get(key);
 
-		if(entry!=null){
-			int i=0;
-			for(String arg:args){
-				if(arg != null){
+		if (entry != null) {
+			int i = 0;
+			for (String arg : args) {
+				if (arg != null) {
 					i++;
-					entry = entry.replace("&v"+i, arg);
+					entry = entry.replace("&v" + i, arg);
 				}
 			}
 		} else {

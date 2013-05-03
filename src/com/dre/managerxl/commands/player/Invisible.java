@@ -7,55 +7,55 @@ import com.dre.managerxl.MPlayer;
 import com.dre.managerxl.P;
 import com.dre.managerxl.commands.MCommand;
 
-public class Invisible extends MCommand{
-	
-	public Invisible(){
+public class Invisible extends MCommand {
+
+	public Invisible() {
 		this.command = "invisible";
 		this.parrent = null;
 		this.help = P.p.getLanguageReader().get("Help_Invisible");
 		this.permission = "mxl.cmd.player.invisible";
-		
+
 		this.isConsoleCommand = true;
 		this.isPlayerCommand = true;
-		
+
 		this.init();
 	}
-	
+
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
-		if(args.length < 1){
-			if(sender instanceof Player){				
+		if (args.length < 1) {
+			if (sender instanceof Player) {
 				MPlayer mPlayer = MPlayer.getOrCreate(sender.getName());
-				
-				if(mPlayer.isVisible()){
+
+				if (mPlayer.isVisible()) {
 					mPlayer.setVisible(false);
-					
+
 					P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Visible_Invisible"));
 				} else {
 					mPlayer.setVisible(true);
-					
+
 					P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Visible_Visible"));
 				}
 			} else {
 				P.p.msg(sender, P.p.getLanguageReader().get("Error_NoConsoleCommand"));
 			}
 		} else {
-			if(P.p.getPermissionHandler().has(sender, "mxl.cmd.player.invisibleother")){
+			if (P.p.getPermissionHandler().has(sender, "mxl.cmd.player.invisibleother")) {
 				MPlayer oPlayer = MPlayer.get(args[0]);
-				
-				if(oPlayer != null){
-					if(oPlayer.isVisible()){
+
+				if (oPlayer != null) {
+					if (oPlayer.isVisible()) {
 						oPlayer.setVisible(false);
-						
+
 						P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Visible_InvisibleOther", oPlayer.getName()));
-						if(oPlayer.getPlayer() != null){
+						if (oPlayer.getPlayer() != null) {
 							P.p.msg(oPlayer.getPlayer(), P.p.getLanguageReader().get("Cmd_Visible_Invisible", oPlayer.getName()));
 						}
 					} else {
 						oPlayer.setVisible(true);
-						
+
 						P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Visible_VisibleOther", oPlayer.getName()));
-						if(oPlayer.getPlayer() != null){
+						if (oPlayer.getPlayer() != null) {
 							P.p.msg(oPlayer.getPlayer(), P.p.getLanguageReader().get("Cmd_Visible_Visible"));
 						}
 					}

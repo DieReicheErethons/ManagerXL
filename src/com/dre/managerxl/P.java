@@ -18,84 +18,85 @@ import com.dre.managerxl.commands.MCommand;
 import com.dre.managerxl.listeners.PlayerListener;
 import com.dre.managerxl.listeners.ServerListener;
 
-public class P extends JavaPlugin{
+public class P extends JavaPlugin {
 	public static P p;
-	
+
 	/* Other Plugins */
 	public DynmapCommonAPI dynmap;
-	
+
 	/* Config */
 	public Config config;
-	
+
 	/* Language Reader */
 	private LanguageReader languageReader;
-	public LanguageReader getLanguageReader(){
+
+	public LanguageReader getLanguageReader() {
 		return languageReader;
 	}
-	
+
 	@Override
-	public void onEnable(){
+	public void onEnable() {
 		p = this;
-		
-		//Load Config
-		this.config = new Config(new File(this.getDataFolder(),"config.yml"));
-		
-		//Load LanguageReader
+
+		// Load Config
+		this.config = new Config(new File(this.getDataFolder(), "config.yml"));
+
+		// Load LanguageReader
 		this.languageReader = new LanguageReader(new File(p.getDataFolder(), "languages/default.yml"));
-		
-		//Setup Permissions
+
+		// Setup Permissions
 		setupPermissions();
-		
-		//Init Listeners
+
+		// Init Listeners
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ServerListener(), this);
-		
-		//Setup Commands
+
+		// Setup Commands
 		MCommand.initCommands();
-		
-		//Load
+
+		// Load
 		LoadAll();
-		
-		//Check Dynmap
+
+		// Check Dynmap
 		Plugin dynmapPlugin = Bukkit.getPluginManager().getPlugin("dynmap");
-		if(dynmapPlugin != null){
+		if (dynmapPlugin != null) {
 			this.dynmap = ((DynmapCommonAPI) dynmapPlugin);
 		}
 	}
-	
+
 	@Override
-	public void onDisable(){
-		
-		//Save
+	public void onDisable() {
+
+		// Save
 		SaveAll();
 	}
-	
-	//Save and Load
-	public void SaveAll(){
-		if(MPlayer.SaveAsYml(new File(this.getDataFolder(), "players.yml"))){
+
+	// Save and Load
+	public void SaveAll() {
+		if (MPlayer.SaveAsYml(new File(this.getDataFolder(), "players.yml"))) {
 			P.p.log(getLanguageReader().get("Log_PlayersSaved"));
 		} else {
 			P.p.log(Level.WARNING, getLanguageReader().get("Log_Error_PlayersSaved"));
 		}
 	}
-	
-	public void LoadAll(){
-		//Players
-		if(MPlayer.LoadAsYml(new File(this.getDataFolder(), "players.yml"))){
+
+	public void LoadAll() {
+		// Players
+		if (MPlayer.LoadAsYml(new File(this.getDataFolder(), "players.yml"))) {
 			P.p.log(getLanguageReader().get("Log_PlayersLoaded"));
 		} else {
 			P.p.log(Level.WARNING, getLanguageReader().get("Log_Error_PlayersLoaded"));
 		}
 	}
-	
-	//Msg
-	public void msg(CommandSender sender,String msg){
+
+	// Msg
+	public void msg(CommandSender sender, String msg) {
 		msg = replaceColors(msg);
 		sender.sendMessage(msg);
 	}
 
-	public String replaceColors(String msg){
-		if (msg!=null) {
+	public String replaceColors(String msg) {
+		if (msg != null) {
 			msg = msg.replace("&0", ChatColor.getByChar("0").toString());
 			msg = msg.replace("&1", ChatColor.getByChar("1").toString());
 			msg = msg.replace("&2", ChatColor.getByChar("2").toString());
@@ -122,29 +123,28 @@ public class P extends JavaPlugin{
 
 		return msg;
 	}
-	
-	//Permissions
+
+	// Permissions
 	private Permission permissionProvider = null;
 
-    private Boolean setupPermissions()
-    {
-        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-        if (permissionProvider != null) {
-        	this.permissionProvider = permissionProvider.getProvider();
-        }
-        return (this.permissionProvider != null);
-    }
-    
-    public Permission getPermissionHandler(){
-    	return permissionProvider;
-    }
-    
-    //Logger
-    public void log(String msg){
+	private Boolean setupPermissions() {
+		RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+		if (permissionProvider != null) {
+			this.permissionProvider = permissionProvider.getProvider();
+		}
+		return (this.permissionProvider != null);
+	}
+
+	public Permission getPermissionHandler() {
+		return permissionProvider;
+	}
+
+	// Logger
+	public void log(String msg) {
 		log(Level.INFO, msg);
 	}
-	
-	public void log(Level level, Object msg){
-		Logger.getLogger("Minecraft").log(level, "["+this.getDescription().getFullName()+"] "+msg);
+
+	public void log(Level level, Object msg) {
+		Logger.getLogger("Minecraft").log(level, "[" + this.getDescription().getFullName() + "] " + msg);
 	}
 }
