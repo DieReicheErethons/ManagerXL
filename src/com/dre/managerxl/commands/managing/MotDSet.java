@@ -21,7 +21,8 @@ public class MotDSet extends MCommand{
 	
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
-		P.p.setMotD(P.p.replaceColors(MUtility.parseMessage(args, 0)));
+		P.p.config.setMotD(MUtility.parseMessage(args, 0));
+		P.p.config.saveSingleConfig("MotD", P.p.config.getMotD());
 		P.p.msg(sender, P.p.getLanguageReader().get("Cmd_MotDSet_Success"));
 	}
 }

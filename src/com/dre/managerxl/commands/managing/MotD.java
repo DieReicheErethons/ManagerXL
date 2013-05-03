@@ -21,6 +21,6 @@ public class MotD extends MCommand{
 	
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
-		P.p.msg(sender, P.p.getMotD());
+		P.p.msg(sender, P.p.config.getMotD());
 	}
 }

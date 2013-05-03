@@ -10,7 +10,8 @@ public class ServerListener implements Listener{
 	
 	@EventHandler()
 	public void onServerListPing(ServerListPingEvent event){
-		/* Set MotD */
-		event.setMotd(P.p.getMotD());
+		if(P.p.config.getMotD()!=""){
+			event.setMotd(P.p.replaceColors(P.p.config.getMotD()));
+		}
 	}
 }

@@ -24,23 +24,24 @@ public class P extends JavaPlugin{
 	/* Other Plugins */
 	public DynmapCommonAPI dynmap;
 	
+	/* Config */
+	public Config config;
+	
 	/* Language Reader */
 	private LanguageReader languageReader;
 	public LanguageReader getLanguageReader(){
 		return languageReader;
 	}
 	
-	/* MotD */
-	private String motd = "";
-	public String getMotD() { return this.motd; }
-	public void setMotD(String motd) { this.motd = motd; }
-	
 	@Override
 	public void onEnable(){
 		p = this;
 		
+		//Load Config
+		this.config = new Config(new File(this.getDataFolder(),"config.yml"));
+		
 		//Load LanguageReader
-		languageReader = new LanguageReader(new File(p.getDataFolder(), "languages/default.yml"));
+		this.languageReader = new LanguageReader(new File(p.getDataFolder(), "languages/default.yml"));
 		
 		//Setup Permissions
 		setupPermissions();
@@ -58,7 +59,7 @@ public class P extends JavaPlugin{
 		//Check Dynmap
 		Plugin dynmapPlugin = Bukkit.getPluginManager().getPlugin("dynmap");
 		if(dynmapPlugin != null){
-			dynmap = ((DynmapCommonAPI) dynmapPlugin);
+			this.dynmap = ((DynmapCommonAPI) dynmapPlugin);
 		}
 	}
 	
@@ -85,9 +86,6 @@ public class P extends JavaPlugin{
 		} else {
 			P.p.log(Level.WARNING, getLanguageReader().get("Log_Error_PlayersLoaded"));
 		}
-		
-		//MotD
-		motd = Bukkit.getMotd();
 	}
 	
 	//Msg
