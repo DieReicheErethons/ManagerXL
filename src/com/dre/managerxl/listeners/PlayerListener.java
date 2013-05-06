@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -29,8 +30,7 @@ public class PlayerListener implements Listener {
 		if (player != null) {
 			if (player.isBanned()) {
 				if (player.getUntilUnBannedTime() > 0) {
-					event.disallow(Result.KICK_OTHER,
-							P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_TimeBan", player.getBannedReason(), MUtility.getIntTimeToString(player.getUntilUnBannedTime()))));
+					event.disallow(Result.KICK_OTHER, P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_TimeBan", player.getBannedReason(), MUtility.getIntTimeToString(player.getUntilUnBannedTime()))));
 				} else {
 					event.disallow(Result.KICK_OTHER, P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_Ban", player.getBannedReason())));
 				}
@@ -90,19 +90,41 @@ public class PlayerListener implements Listener {
 
 		/* Teleport Compass */
 		if (P.p.getPermissionHandler().has(player, "mxl.tool.tpcompass")) {
-			if (event.getItem().getType() == Material.COMPASS) {
-				Location seeLocation = null;
-				List<Block> sight = player.getLastTwoTargetBlocks(null, 60);
+			if (event.hasItem()) {
+				if (event.getItem().getType() == Material.COMPASS) {
+					Location seeLocation = null;
+					List<Block> sight = player.getLastTwoTargetBlocks(null, 100);
+					boolean hitStone = false;
 
-				for (Block block : sight) {
-					if (block.getTypeId() != 0) {
-						seeLocation = block.getLocation();
-						break;
+					for (Block block : sight) {
+						if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+							if (block.getTypeId() != 0) {
+								hitStone = true;
+							}
+							if (block.getTypeId() == 0 && hitStone) {
+								seeLocation = block.getLocation();
+								break;
+							}
+						} else {
+							if (block.getTypeId() != 0) {
+								seeLocation = block.getLocation();
+								break;
+							}
+						}
 					}
-				}
 
-				if (seeLocation != null) {
-					player.teleport(seeLocation);
+					if (seeLocation != null) {
+						seeLocation.setPitch(player.getLocation().getPitch());
+						seeLocation.setYaw(player.getLocation().getYaw());
+
+						if (player.getLocation().getY() > seeLocation.getY()) {
+							seeLocation.setY(seeLocation.getY() + 1);
+						}
+
+						player.teleport(seeLocation);
+					}
+
+					event.setCancelled(true);
 				}
 			}
 		}
