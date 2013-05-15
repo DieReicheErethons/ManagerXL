@@ -70,7 +70,16 @@ public class P extends JavaPlugin {
 		// Save
 		SaveAll();
 	}
-
+	
+	
+	public void initSchedulers() {
+		p.getServer().getScheduler().scheduleSyncRepeatingTask(p, new Runnable() {
+			public void run() {
+				SaveAll();
+			}
+		}, 0L, 18000L);
+	}
+	
 	// Save and Load
 	public void SaveAll() {
 		if (MPlayer.SaveAsYml(new File(this.getDataFolder(), "players.yml"))) {
