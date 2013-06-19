@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.dre.managerxl.MPlayer;
 import com.dre.managerxl.P;
@@ -72,6 +73,15 @@ public class PlayerListener implements Listener {
 		}
 
 		player.setOnline(false);
+	}
+	
+	@EventHandler()
+	public void onPlayerRespawn(PlayerRespawnEvent event) {
+		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getName());
+		
+		if(player.getHome()!=null){
+			event.setRespawnLocation(player.getHome());
+		}
 	}
 
 	@EventHandler()
