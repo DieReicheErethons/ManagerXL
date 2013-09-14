@@ -54,6 +54,9 @@ public class P extends JavaPlugin {
 		// Setup Commands
 		MCommand.initCommands();
 
+		// Init schedulers
+		initSchedulers();
+		
 		// Load
 		LoadAll();
 
