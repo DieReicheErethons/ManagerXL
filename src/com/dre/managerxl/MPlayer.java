@@ -16,146 +16,14 @@ public class MPlayer {
 	private static Set<MPlayer> mPlayers = new HashSet<MPlayer>();
 
 	private String name;
-
-	public String getName() {
-		return name;
-	}
-
-	public Player getPlayer() {
-		if (this.isOnline) {
-			return P.p.getServer().getPlayer(this.name);
-		}
-
-		return null;
-	}
-
 	private boolean isOnline;
-
-	public boolean isOnline() {
-		return isOnline;
-	}
-
-	public void setOnline(boolean online) {
-		isOnline = online;
-	}
-
 	private boolean isBanned;
-
-	public boolean isBanned() {
-		if (getBannedTime() > 0) {
-			if (getUntilUnBannedTime() <= 0) {
-				isBanned = false;
-				setBannedTime(0);
-			}
-		}
-
-		return isBanned;
-	}
-
-	public void setBanned(boolean banned) {
-		isBanned = banned;
-
-		if (isBanned) {
-			if (isOnline()) {
-				if (getBannedTime() > 0) {
-					getPlayer().kickPlayer(P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_TimeBan", this.getBannedReason(), "" + this.getBannedTime())));
-				} else {
-					getPlayer().kickPlayer(P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_Ban", this.getBannedReason())));
-				}
-			}
-		}
-	}
-
-	private long bannedTime;
-
-	public void setBannedTime(long l) {
-		this.bannedTime = l;
-	}
-
-	public long getBannedTime() {
-		return bannedTime;
-	}
-
-	public long getUntilUnBannedTime() {
-		return bannedTime - System.currentTimeMillis();
-	}
-
-	private String bannedReason;
-
-	public void setBannedReason(String bannedReason) {
-		this.bannedReason = bannedReason;
-	}
-
-	public String getBannedReason() {
-		return bannedReason;
-	}
-
-	private Location home;
-
-	public Location getHome() {
-		return home;
-	}
-
-	public void setHome(Location home) {
-		this.home = home;
-	}
-
 	private boolean isMuted;
-
-	public boolean isMuted() {
-		return isMuted;
-	}
-
-	public void setMuted(boolean isMuted) {
-		this.isMuted = isMuted;
-	}
-
-	private int gameMode = 0;
-
-	public int getGameMode() {
-		return gameMode;
-	}
-
-	public boolean setGameMode(int gameMode) {
-		org.bukkit.GameMode gm = org.bukkit.GameMode.getByValue(gameMode);
-		if (gm != null) {
-			this.gameMode = gameMode;
-
-			if (this.getPlayer() != null) {
-				this.getPlayer().setGameMode(gm);
-				P.p.msg(this.getPlayer(), P.p.getLanguageReader().get("Player_GameModeChanged", gm.name()));
-			}
-
-			return true;
-		}
-
-		return false;
-	}
-
 	private boolean isVisible = true;
-
-	public boolean isVisible() {
-		return this.isVisible;
-	}
-
-	public void setVisible(boolean isVisible) {
-		if (this.getPlayer() != null) {
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (isVisible) {
-					player.showPlayer(this.getPlayer());
-				} else {
-					player.hidePlayer(this.getPlayer());
-				}
-			}
-		}
-
-		// Dynmap
-		if (P.p.dynmap != null) {
-			P.p.dynmap.assertPlayerInvisibility(this.getName(), !isVisible, "ManagerXL");
-		}
-
-		this.isVisible = isVisible;
-	}
+	private long bannedTime;
+	private String bannedReason;
+	private Location home;
+	private int gameMode = 0;
 
 	public MPlayer(String name) {
 		mPlayers.add(this);
@@ -167,7 +35,7 @@ public class MPlayer {
 		}
 	}
 
-	// Statics
+	/* Statics */
 	public static Set<MPlayer> get() {
 		return mPlayers;
 	}
@@ -192,7 +60,7 @@ public class MPlayer {
 		return new MPlayer(name);
 	}
 
-	// Save and Load Functions
+	/* Save and Load Functions */
 	public static boolean SaveAsYml(File file) {
 		FileConfiguration ymlFile = new YamlConfiguration();
 
@@ -268,4 +136,128 @@ public class MPlayer {
 		return true;
 	}
 
+	/* Getters and Setters */
+	public String getName() {
+		return name;
+	}
+
+	public Player getPlayer() {
+		if (this.isOnline) {
+			return P.p.getServer().getPlayer(this.name);
+		}
+
+		return null;
+	}
+	
+	public boolean isOnline() {
+		return isOnline;
+	}
+
+	public void setOnline(boolean online) {
+		isOnline = online;
+	}
+	
+	public boolean isBanned() {
+		if (getBannedTime() > 0) {
+			if (getUntilUnBannedTime() <= 0) {
+				isBanned = false;
+				setBannedTime(0);
+			}
+		}
+
+		return isBanned;
+	}
+
+	public void setBanned(boolean banned) {
+		isBanned = banned;
+
+		if (isBanned) {
+			if (isOnline()) {
+				if (getBannedTime() > 0) {
+					getPlayer().kickPlayer(P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_TimeBan", this.getBannedReason(), "" + this.getBannedTime())));
+				} else {
+					getPlayer().kickPlayer(P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_Ban", this.getBannedReason())));
+				}
+			}
+		}
+	}
+	
+	public void setBannedTime(long l) {
+		this.bannedTime = l;
+	}
+
+	public long getBannedTime() {
+		return bannedTime;
+	}
+
+	public long getUntilUnBannedTime() {
+		return bannedTime - System.currentTimeMillis();
+	}
+	
+	public void setBannedReason(String bannedReason) {
+		this.bannedReason = bannedReason;
+	}
+
+	public String getBannedReason() {
+		return bannedReason;
+	}
+	
+	public Location getHome() {
+		return home;
+	}
+
+	public void setHome(Location home) {
+		this.home = home;
+	}
+
+	public boolean isMuted() {
+		return isMuted;
+	}
+
+	public void setMuted(boolean isMuted) {
+		this.isMuted = isMuted;
+	}
+	
+	public int getGameMode() {
+		return gameMode;
+	}
+
+	public boolean setGameMode(int gameMode) {
+		org.bukkit.GameMode gm = org.bukkit.GameMode.getByValue(gameMode);
+		if (gm != null) {
+			this.gameMode = gameMode;
+
+			if (this.getPlayer() != null) {
+				this.getPlayer().setGameMode(gm);
+				P.p.msg(this.getPlayer(), P.p.getLanguageReader().get("Player_GameModeChanged", gm.name()));
+			}
+
+			return true;
+		}
+
+		return false;
+	}	
+	
+	public boolean isVisible() {
+		return this.isVisible;
+	}
+
+	public void setVisible(boolean isVisible) {
+		if (this.getPlayer() != null) {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (isVisible) {
+					player.showPlayer(this.getPlayer());
+				} else {
+					player.hidePlayer(this.getPlayer());
+				}
+			}
+		}
+
+		// Dynmap
+		if (P.p.dynmap != null) {
+			P.p.dynmap.assertPlayerInvisibility(this.getName(), !isVisible, "ManagerXL");
+		}
+
+		this.isVisible = isVisible;
+	}
 }
