@@ -1,6 +1,9 @@
 package com.dre.managerxl.util;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 
 import com.dre.managerxl.P;
 
@@ -89,5 +92,21 @@ public class MUtility {
 		}
 
 		return result.trim();
+	}
+	
+	public static Location getNearestFreePosition(Location currentPosition){
+		Block block = currentPosition.getBlock();
+		
+		for(int y = 0; y < 256 - block.getY(); y++){
+			Block tmpBlock = block.getRelative(BlockFace.UP, y);
+			
+			if(tmpBlock.getTypeId() == 0){
+				if(tmpBlock.getRelative(BlockFace.UP, 1).getTypeId() == 0){
+					return tmpBlock.getLocation();
+				}
+			}
+		}
+		
+		return new Location(block.getWorld(), block.getX(), 256, block.getZ());
 	}
 }

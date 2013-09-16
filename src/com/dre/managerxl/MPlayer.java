@@ -24,6 +24,7 @@ public class MPlayer {
 	private String bannedReason;
 	private Location home;
 	private int gameMode = 0;
+	private long lastTeleport;
 
 	public MPlayer(String name) {
 		mPlayers.add(this);
@@ -259,5 +260,13 @@ public class MPlayer {
 		}
 
 		this.isVisible = isVisible;
+	}
+	
+	public long getLastTeleport(){
+		return this.lastTeleport;
+	}
+	
+	public void setLastTeleport(long time){
+		this.lastTeleport = time;
 	}
 }

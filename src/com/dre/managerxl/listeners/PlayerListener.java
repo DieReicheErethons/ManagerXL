@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -17,6 +19,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.dre.managerxl.MPlayer;
 import com.dre.managerxl.P;
@@ -135,6 +138,27 @@ public class PlayerListener implements Listener {
 					}
 
 					event.setCancelled(true);
+				}
+			}
+		}
+	}
+	
+	@EventHandler()
+	public void onPlayerTeleport(PlayerTeleportEvent event){
+		MPlayer mPlayer = MPlayer.getOrCreate(event.getPlayer().getName());
+		
+		mPlayer.setLastTeleport(System.currentTimeMillis());
+	}
+	
+	@EventHandler()
+	public void onPlayerDamage(EntityDamageEvent event){
+		if(event.getEntity() instanceof Player){
+			Player player = (Player) event.getEntity();
+			MPlayer mPlayer = MPlayer.getOrCreate(player.getName());
+			
+			if(event.getCause() == DamageCause.SUFFOCATION){
+				if(mPlayer.getLastTeleport() + 5000 > System.currentTimeMillis()){
+					player.teleport(MUtility.getNearestFreePosition(player.getLocation()));					
 				}
 			}
 		}
