@@ -33,6 +33,9 @@ public class P extends JavaPlugin {
 	public LanguageReader getLanguageReader() {
 		return languageReader;
 	}
+	
+	/* Broadcaster */
+	private Broadcast broadcast;
 
 	@Override
 	public void onEnable() {
@@ -44,6 +47,9 @@ public class P extends JavaPlugin {
 		// Load LanguageReader
 		this.languageReader = new LanguageReader(new File(p.getDataFolder(), "languages/default.yml"));
 
+		// Load Broadcaster
+		this.broadcast= new Broadcast();
+		
 		// Setup Permissions
 		setupPermissions();
 
@@ -70,6 +76,9 @@ public class P extends JavaPlugin {
 	@Override
 	public void onDisable() {
 
+		// Save Broadcaster
+		broadcast.save();
+		
 		// Save
 		SaveAll();
 	}
@@ -78,6 +87,7 @@ public class P extends JavaPlugin {
 	public void initSchedulers() {
 		p.getServer().getScheduler().scheduleSyncRepeatingTask(p, new Runnable() {
 			public void run() {
+				broadcast.save();
 				SaveAll();
 			}
 		}, 0L, 18000L);

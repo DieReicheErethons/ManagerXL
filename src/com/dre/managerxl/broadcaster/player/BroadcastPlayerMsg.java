@@ -14,14 +14,17 @@ public class BroadcastPlayerMsg {
 	
 	private long lastSend;
 	
-	
-	public BroadcastPlayerMsg(int id,BroadcastPlayer bPlayer){
+	public BroadcastPlayerMsg(int id,BroadcastPlayer bPlayer, int playerLevel, int sendCount, long lastSend){
 		this.msg = BroadcastMsg.messages.get(id);
-		this.playerLevel = 1;
-		this.lastSend = 0L;
-		this.sendCount = 0;
+		this.playerLevel = playerLevel;
+		this.lastSend = lastSend;
+		this.sendCount = sendCount;
 		this.bPlayer = bPlayer;
 		bPlayer.playerMsgs.put(id, this);
+	}
+	
+	public BroadcastPlayerMsg(int id,BroadcastPlayer bPlayer){
+		this(id, bPlayer, 1, 0, 0L);
 	}
 	
 	public BroadcastMsg getBroadcastMsg(){

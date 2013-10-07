@@ -2,6 +2,10 @@ package com.dre.managerxl.broadcaster;
 
 import java.util.HashMap;
 
+import org.apache.commons.lang.time.DateFormatUtils;
+
+import com.dre.managerxl.Broadcast;
+
 public class BroadcastMsg {
 	
 	public static HashMap<Integer, BroadcastMsg> messages = new HashMap<Integer, BroadcastMsg>();
@@ -15,14 +19,16 @@ public class BroadcastMsg {
 	private long endTime;
 	private long startTime;
 	
-	public BroadcastMsg(String type, String msg, long endTime, long startTime){
-		this.id=idCounter;
-		idCounter++;
+	private int timeLevel;
+	
+	public BroadcastMsg(int id, String type, String msg, long endTime, long startTime){
+		this.id=id;
 		this.type=type;
 		this.msg = msg;
 		this.endTime = endTime;
 		this.startTime = startTime;
 		messages.put(id, this);
+		calculateTimeLevel();
 	}
 
 	public BroadcastMsg(String type, String msg, long endTime){
@@ -37,6 +43,7 @@ public class BroadcastMsg {
 		}
 		this.startTime = System.currentTimeMillis();
 		messages.put(id, this);
+		calculateTimeLevel();
 	}
 
 	public String getType() {
@@ -59,19 +66,30 @@ public class BroadcastMsg {
 		return id;
 	}
 
-	public String sendBroadcast() {
-		// TODO  send
-		return null;
+	public String getMsgAsBroadcast() {
+		String beginColor = Broadcast.broadcastColor;
+		String text = beginColor + "["+Broadcast.broadcastText+"]:&f" + msg;
+		return text;
 	}
 
-	public String sendNews() {
-		// TODO send news
-		return null;
+	public String getMsgAsNews() {
+		String beginColor = Broadcast.timeColors.get(timeLevel);
+		String text = beginColor + "["+Broadcast.newsText+"]:&f" + msg;
+		return text;
 	}
 
-	public String sendDate() {
-		// TODO send date
-		return null;
+	public String getMsgAsDate() {
+		String beginColor = Broadcast.timeColors.get(Broadcast.timeColors.size()-1-timeLevel);
+		String text = beginColor + "["+Broadcast.dateText+" "+DateFormatUtils.format(endTime, "dd MM yy HH:mm")+"]:&f" + msg;
+		return text;
+	}
+	
+	public void calculateTimeLevel(){
+		long diff = endTime-startTime;
+		if(diff == 0){timeLevel = 0; return;}
+		timeLevel = (int)((System.currentTimeMillis() - diff) / 
+				(diff / Broadcast.timeColors.size()));
+		return;
 	}
 	
 }

@@ -3,16 +3,14 @@ package com.dre.managerxl.broadcaster.player;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.bukkit.entity.Player;
-
 public class BroadcastPlayer {
 
-	private Player player;
+	private String player;
 	public HashMap<Integer,BroadcastPlayerMsg> playerMsgs = new HashMap<Integer,BroadcastPlayerMsg>();
 	
 	private static ArrayList<BroadcastPlayer> list = new ArrayList<BroadcastPlayer>();
 	
-	public BroadcastPlayer(Player player){
+	public BroadcastPlayer(String player){
 		list.add(this);
 		
 		this.player=player;
@@ -20,14 +18,14 @@ public class BroadcastPlayer {
 		
 	}
 	
-	public Player getPlayer(){
+	public String getPlayer(){
 		return player;
 	}
 	
-	public static BroadcastPlayer getBroadcastPlayer(Player player){
+	public static BroadcastPlayer getBroadcastPlayer(String player){
 		
 		for(BroadcastPlayer bPlayer: list){
-			if(player == bPlayer.getPlayer()){
+			if(player.equalsIgnoreCase(bPlayer.getPlayer())){
 				return bPlayer;
 			}
 		}
