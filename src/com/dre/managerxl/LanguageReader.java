@@ -53,6 +53,9 @@ public class LanguageReader {
 		defaults.put("Help_Mute", "/mute <player> - Muted einen Spieler");
 		defaults.put("Help_GameMode", "/gamemode [player] [mode] - Setzt/Wechselt den GameMode eines Spielers");
 		defaults.put("Help_Invisible", "/invisible [player] - Wechselt die Sichtbarkeit von dir oder einem Spieler");
+		defaults.put("Help_AddNews", "/addnews [endtime] [message] - Erstellt neue News");
+		defaults.put("Help_AddDate", "/adddate [endtime] [message] - Erstellt neuen Event/Termin");
+		defaults.put("Help_AddBroadcast", "/addbroadcast [message] - Erstellt neuen Broadcast");
 
 		/* Player */
 		defaults.put("Player_Kick_Ban", "&4Du wurdest gebannt. Grund: &6&v1");
