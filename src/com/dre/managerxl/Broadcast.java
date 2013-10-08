@@ -15,24 +15,19 @@ import com.dre.managerxl.broadcaster.player.BroadcastPlayerMsg;
 
 public class Broadcast {
 	
-	//private FileConfiguration broadcastData;
-	//private FileConfiguration broadcastMsgs;
+	public static int maxLevel;// = 10;
+	public static int sendsPerLevel;// = 20;
+	public static int minTimeInMinutes;// = 10;
+	public static int maxTimeInMinutes;// = 60;
+	public static String broadcastColor;// = "&2";
 	
+	public static String broadcastText;// = "Broadcast";
+	public static String newsText;// = "News";
+	public static String dateText;// = "Date";
 	
-	
-	public static int maxLevel = 10; // TODO in die Config
-	public static int sendsPerLevel = 20;
-	public static int minTimeInMinutes = 10;
-	public static int maxTimeInMinutes = 60;
-	public static String broadcastColor = "&2";
-	
-	public static String broadcastText = "Broadcast";
-	public static String newsText = "News";
-	public static String dateText = "Date";
-	
-	public static String broadcastFolderName = "Broadcaster";
-	public static String broadcastDataFileName = "data.yml";
-	public static String broadcastMsgFileName = "msg.yml";
+	public static String broadcastFolderName;// = "Broadcaster";
+	public static String broadcastDataFileName;
+	public static String broadcastMsgFileName;
 	
 	public static ArrayList<String> timeColors = new ArrayList<String>();
 	
@@ -43,13 +38,9 @@ public class Broadcast {
 	public Broadcast(){
 		
 		initializeBroadcaster();
+
+		loadConfig();
 		
-		timeColors.add("&4");
-		timeColors.add("&c");
-		timeColors.add("&6");
-		timeColors.add("&e");
-		timeColors.add("&2");
-		timeColors.add("&a");
 		this.load();
 		
 		initBroadcastSchedulers();
@@ -180,7 +171,16 @@ public class Broadcast {
 	}
 	
 	public void saveData(){
+		FileConfiguration file = new YamlConfiguration();
 		
+		for(BroadcastPlayer bPlayer: BroadcastPlayer.list){
+			for(Integer id: bPlayer.playerMsgs.keySet()){
+				BroadcastPlayerMsg bpMsg = bPlayer.playerMsgs.get(id);
+				file.set(bPlayer.getPlayer()+"."+id+".playerLevel", bpMsg.getPlayerLevel());
+				file.set(bPlayer.getPlayer()+"."+id+".sendCount", bpMsg.getSendCount());
+				file.set(bPlayer.getPlayer()+"."+id+".lastSend", bpMsg.getLastSend());
+			}
+		}
 	}
 	
 	public void loadMessages(){
@@ -211,8 +211,6 @@ public class Broadcast {
 		int sendCount;
 		long lastSend;
 		
-		
-		
 		for(String name: file.getKeys(false)){
 			bPlayer = BroadcastPlayer.getBroadcastPlayer(name);
 			ConfigurationSection section = file.getConfigurationSection(name);
@@ -223,5 +221,54 @@ public class Broadcast {
 				new BroadcastPlayerMsg(Integer.parseInt(id), bPlayer, playerLevel, sendCount, lastSend);
 			}
 		}
+	}
+
+	public static void saveDefaultConfig(Config config) {
+		config.saveSingleConfig("Broadcaster.maxLevel", 10);
+		config.saveSingleConfig("Broadcaster.sendsPerLevel", 20);
+		config.saveSingleConfig("Broadcaster.minTimeInMinutes", 10);
+		config.saveSingleConfig("Broadcaster.maxTimeInMinutes", 60);
+		
+		config.saveSingleConfig("Broadcaster.broadcastColor", "&2");
+		
+		config.saveSingleConfig("Broadcaster.broadcastText", "Broadcast");
+		config.saveSingleConfig("Broadcaster.newsText", "News");
+		config.saveSingleConfig("Broadcaster.dateText", "Event");
+		
+		config.saveSingleConfig("Broadcaster.broadcastFolderName", "Broadcaster");
+		config.saveSingleConfig("Broadcaster.broadcastDataFileName", "data.yml");
+		config.saveSingleConfig("Broadcaster.broadcastMsgFileName", "msg.yml");
+		
+		ArrayList<String> tColors = new ArrayList<String>();
+		
+		tColors.add("&4");
+		tColors.add("&c");
+		tColors.add("&6");
+		tColors.add("&e");
+		tColors.add("&2");
+		tColors.add("&a");
+		
+		config.saveSingleConfig("Broadcaster.timeColors", tColors);
+	}
+	
+	@SuppressWarnings("unchecked") // cast of List to ArrayList
+	public void loadConfig(){
+		ConfigurationSection broadcasterConfig = P.p.config.getBroadcasterConfigSection();
+		
+		maxLevel = broadcasterConfig.getInt("Broadcaster.maxLevel");
+		sendsPerLevel = broadcasterConfig.getInt("Broadcaster.sendsPerLevel");
+		minTimeInMinutes = broadcasterConfig.getInt("Broadcaster.minTimeInMinutes");
+		maxTimeInMinutes = broadcasterConfig.getInt("Broadcaster.maxTimeInMinutes");
+		broadcastColor = broadcasterConfig.getString("Broadcaster.broadcastColor");
+		
+		broadcastText = broadcasterConfig.getString("Broadcaster.broadcastText");
+		newsText = broadcasterConfig.getString("Broadcaster.newsText");
+		dateText = broadcasterConfig.getString("Broadcaster.dateText");
+		
+		broadcastFolderName = broadcasterConfig.getString("Broadcaster.broadcastFolderName");
+		broadcastDataFileName = broadcasterConfig.getString("Broadcaster.broadcastDataFileName");
+		broadcastMsgFileName = broadcasterConfig.getString("Broadcaster.broadcastMsgFileName");
+		
+		timeColors = (ArrayList<String>) broadcasterConfig.getList("Broadcaster.timeColors");
 	}
 }

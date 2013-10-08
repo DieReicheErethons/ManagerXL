@@ -8,7 +8,7 @@ public class BroadcastPlayer {
 	private String player;
 	public HashMap<Integer,BroadcastPlayerMsg> playerMsgs = new HashMap<Integer,BroadcastPlayerMsg>();
 	
-	private static ArrayList<BroadcastPlayer> list = new ArrayList<BroadcastPlayer>();
+	public static ArrayList<BroadcastPlayer> list = new ArrayList<BroadcastPlayer>();
 	
 	public BroadcastPlayer(String player){
 		list.add(this);
