@@ -99,6 +99,8 @@ public class Broadcast {
 				}
 				
 				deleteOldMessages();
+				
+				deleteOldPlayerData();
 			}
 		}, 0L, 1200L);
 	}
@@ -109,6 +111,18 @@ public class Broadcast {
 			if (entry.getValue().isDelete()) {
 				
 				it.remove();
+			}
+		}
+	}
+
+	private void deleteOldPlayerData() {
+		for(BroadcastPlayer bPlayer : BroadcastPlayer.list){
+			for (Iterator<Map.Entry<Integer,BroadcastPlayerMsg>> it = bPlayer.playerMsgs.entrySet().iterator(); it.hasNext();) {
+				Map.Entry<Integer,BroadcastPlayerMsg> entry = it.next();
+				if (entry.getValue().getBroadcastMsg() == null) {
+					it.remove();
+					break;
+				}
 			}
 		}
 	}
