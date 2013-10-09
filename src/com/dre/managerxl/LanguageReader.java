@@ -53,9 +53,10 @@ public class LanguageReader {
 		defaults.put("Help_Mute", "/mute <player> - Muted einen Spieler");
 		defaults.put("Help_GameMode", "/gamemode [player] [mode] - Setzt/Wechselt den GameMode eines Spielers");
 		defaults.put("Help_Invisible", "/invisible [player] - Wechselt die Sichtbarkeit von dir oder einem Spieler");
-		defaults.put("Help_AddNews", "/addnews [endtime] [message] - Erstellt neue News");
-		defaults.put("Help_AddDate", "/adddate [endtime] [message] - Erstellt neuen Event/Termin");
+		defaults.put("Help_AddNews", "/addnews [datum] [uhrzeit] [message] - Erstellt neue News");
+		defaults.put("Help_AddDate", "/adddate [datum] [uhrzeit] [message] - Erstellt neuen Event/Termin");
 		defaults.put("Help_AddBroadcast", "/addbroadcast [message] - Erstellt neuen Broadcast");
+		defaults.put("Help_ReloadBroadcaster", "/reloadbroadcaster - Läd die Daten des Broadcasters neu");
 
 		/* Player */
 		defaults.put("Player_Kick_Ban", "&4Du wurdest gebannt. Grund: &6&v1");
@@ -95,7 +96,8 @@ public class LanguageReader {
 		defaults.put("Error_CmdHome_NoHome", "&4Du hast noch kein Home gesetzt. Benutze bitte zuerst &6/sethome&4!");
 		defaults.put("Error_CmdHome_NoHome2", "&6&v1&4 hat noch kein Home gesetzt!");
 		defaults.put("Error_CmdGameMode_NotExist", "&4GameMode &6&v1&4 existiert nicht!");
-
+		defaults.put("Error_DateNotParsable", "Versuche ein Datum wie '10.02.2013 12:00'");
+		
 		/* Format */
 		defaults.put("Format_Days", "Tage");
 		defaults.put("Format_Hours", "Stunden");

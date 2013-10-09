@@ -20,6 +20,8 @@ public class BroadcastMsg {
 	private long startTime;
 	
 	private int timeLevel;
+
+	private boolean delete = false;
 	
 	public BroadcastMsg(int id, String type, String msg, long endTime, long startTime){
 		this.id=id;
@@ -90,6 +92,14 @@ public class BroadcastMsg {
 		timeLevel = (int)((System.currentTimeMillis() - diff) / 
 				(diff / Broadcast.timeColors.size()));
 		return;
+	}
+
+	public void setDelete() {
+		this.delete  = true;
+	}
+
+	public boolean isDelete() {
+		return delete;
 	}
 	
 }

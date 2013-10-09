@@ -1,5 +1,9 @@
 package com.dre.managerxl.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -108,5 +112,17 @@ public class MUtility {
 		}
 		
 		return new Location(block.getWorld(), block.getX(), 256, block.getZ());
+	}
+
+	public static long getStringDateToLong(String date, String time) {
+		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+		Date d = null;
+		try {
+			d = f.parse(date+" "+time);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return 0;
+		}
+		return d.getTime();
 	}
 }

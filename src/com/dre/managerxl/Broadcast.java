@@ -3,6 +3,8 @@ package com.dre.managerxl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -36,17 +38,16 @@ public class Broadcast {
 	private File broadcastMsgFile;
 	
 	public Broadcast(){
+		loadConfig();
 		
 		initializeBroadcaster();
-
-		loadConfig();
 		
 		this.load();
 		
 		initBroadcastSchedulers();
 	}
 	
-	private void initializeBroadcaster() {
+	public void initializeBroadcaster() {
 		broadcastFolder = new File(P.p.getDataFolder(), broadcastFolderName);
 		
 		if(!broadcastFolder.exists()){
@@ -79,19 +80,38 @@ public class Broadcast {
 			public void run() {
 				Player[] players = P.p.getServer().getOnlinePlayers();
 				
-				for(Player player : players){
-					for(Integer msgId: BroadcastMsg.messages.keySet()){
-						BroadcastMsg msg = BroadcastMsg.messages.get(msgId);
-						if(getNextSendTime(player, msg)>System.currentTimeMillis()){
+				for(Integer msgId: BroadcastMsg.messages.keySet()){
+					BroadcastMsg msg = BroadcastMsg.messages.get(msgId);
+					boolean endThisMsg = false;
+					if(msg.getEndTime()<System.currentTimeMillis()){
+						endThisMsg = true;
+					}
+					for(Player player : players){
+						if(endThisMsg){
+							broadcastMsg(player, msg);
+						}else if(getNextSendTime(player, msg)<System.currentTimeMillis()){
 							broadcastMsg(player, msg);
 						}
 					}
+					if(endThisMsg){
+						msg.setDelete();
+					}
 				}
 				
+				deleteOldMessages();
 			}
 		}, 0L, 1200L);
 	}
-
+	
+	private void deleteOldMessages() {
+		for (Iterator<Map.Entry<Integer, BroadcastMsg>> it = BroadcastMsg.messages.entrySet().iterator(); it.hasNext();) {
+			Map.Entry<Integer, BroadcastMsg> entry = it.next();
+			if (entry.getValue().isDelete()) {
+				
+				it.remove();
+			}
+		}
+	}
 	
 	
 	public static void broadcastMsg(Player player, BroadcastMsg msg){
