@@ -1,4 +1,4 @@
-package com.dre.managerxl.broadcaster.player;
+/*package com.dre.managerxl.broadcaster.player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,3 +44,4 @@ public class BroadcastPlayer {
 	}
 	
 }
+*/

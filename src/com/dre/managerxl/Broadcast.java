@@ -12,7 +12,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.dre.managerxl.broadcaster.BroadcastMsg;
-import com.dre.managerxl.broadcaster.player.BroadcastPlayer;
 import com.dre.managerxl.broadcaster.player.BroadcastPlayerMsg;
 
 public class Broadcast {
@@ -116,7 +115,7 @@ public class Broadcast {
 	}
 
 	private void deleteOldPlayerData() {
-		for(BroadcastPlayer bPlayer : BroadcastPlayer.list){
+		for(MPlayer bPlayer : MPlayer.get()){
 			for (Iterator<Map.Entry<Integer,BroadcastPlayerMsg>> it = bPlayer.playerMsgs.entrySet().iterator(); it.hasNext();) {
 				Map.Entry<Integer,BroadcastPlayerMsg> entry = it.next();
 				if (entry.getValue().getBroadcastMsg() == null) {
@@ -130,7 +129,7 @@ public class Broadcast {
 	
 	public static void broadcastMsg(Player player, BroadcastMsg msg){
 		
-		BroadcastPlayer bPlayer = BroadcastPlayer.getBroadcastPlayer(player.getName());
+		MPlayer bPlayer = MPlayer.getOrCreate(player.getName());
 		BroadcastPlayerMsg bMsg = bPlayer.getBMsg(msg.getId());
 		
 		bMsg.setSendCount(bMsg.getSendCount()+1);
@@ -153,7 +152,7 @@ public class Broadcast {
 	}
 	
 	public static long getNextSendTime(Player player, BroadcastMsg msg){
-		BroadcastPlayer bPlayer = BroadcastPlayer.getBroadcastPlayer(player.getName());
+		MPlayer bPlayer = MPlayer.getOrCreate(player.getName());
 		BroadcastPlayerMsg bMsg = bPlayer.getBMsg(msg.getId());
 		long lastSend = bMsg.getLastSend();
 		int playerLevel = bMsg.getPlayerLevel();
@@ -207,7 +206,7 @@ public class Broadcast {
 	public void saveData(){
 		FileConfiguration file = new YamlConfiguration();
 		
-		for(BroadcastPlayer bPlayer: BroadcastPlayer.list){
+		for(MPlayer bPlayer: MPlayer.get()){
 			for(Integer id: bPlayer.playerMsgs.keySet()){
 				BroadcastPlayerMsg bpMsg = bPlayer.playerMsgs.get(id);
 				file.set(bPlayer.getPlayer()+"."+id+".playerLevel", bpMsg.getPlayerLevel());
@@ -240,13 +239,13 @@ public class Broadcast {
 	
 	public void loadData(){
 		FileConfiguration file = YamlConfiguration.loadConfiguration(broadcastDataFile);
-		BroadcastPlayer bPlayer;
+		MPlayer bPlayer;
 		int playerLevel;
 		int sendCount;
 		long lastSend;
 		
 		for(String name: file.getKeys(false)){
-			bPlayer = BroadcastPlayer.getBroadcastPlayer(name);
+			bPlayer = MPlayer.getOrCreate(name);
 			ConfigurationSection section = file.getConfigurationSection(name);
 			for(String id: section.getKeys(false)){
 				playerLevel = file.getInt(name+"."+id+".playerLevel");

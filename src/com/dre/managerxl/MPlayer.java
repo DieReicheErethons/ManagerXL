@@ -2,6 +2,7 @@ package com.dre.managerxl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,6 +12,8 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+
+import com.dre.managerxl.broadcaster.player.BroadcastPlayerMsg;
 
 public class MPlayer {
 	private static Set<MPlayer> mPlayers = new HashSet<MPlayer>();
@@ -25,6 +28,20 @@ public class MPlayer {
 	private Location home;
 	private int gameMode = 0;
 	private long lastTeleport;
+	
+	/* BroadcasterPlayer */
+	public HashMap<Integer,BroadcastPlayerMsg> playerMsgs = new HashMap<Integer,BroadcastPlayerMsg>();
+	
+	public BroadcastPlayerMsg getBMsg(int id) {
+		BroadcastPlayerMsg msg = playerMsgs.get(id);
+		
+		if(msg == null){
+			msg = new BroadcastPlayerMsg(id, this);
+		}
+		
+		return msg;
+	}
+	
 
 	public MPlayer(String name) {
 		mPlayers.add(this);
