@@ -1,7 +1,6 @@
-package com.dre.managerxl.broadcaster.player;
+package com.dre.managerxl.broadcaster;
 
 import com.dre.managerxl.MPlayer;
-import com.dre.managerxl.broadcaster.BroadcastMsg;
 
 public class BroadcastPlayerMsg {
 

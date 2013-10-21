@@ -12,7 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.dre.managerxl.broadcaster.BroadcastMsg;
-import com.dre.managerxl.broadcaster.player.BroadcastPlayerMsg;
+import com.dre.managerxl.broadcaster.BroadcastPlayerMsg;
 
 public class Broadcast {
 	

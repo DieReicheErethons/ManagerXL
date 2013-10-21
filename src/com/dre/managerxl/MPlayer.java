@@ -13,7 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import com.dre.managerxl.broadcaster.player.BroadcastPlayerMsg;
+import com.dre.managerxl.broadcaster.BroadcastPlayerMsg;
 
 public class MPlayer {
 	private static Set<MPlayer> mPlayers = new HashSet<MPlayer>();
