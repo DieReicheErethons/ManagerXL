@@ -14,6 +14,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapCommonAPI;
 
+import com.dre.managerxl.broadcaster.Broadcaster;
 import com.dre.managerxl.commands.MCommand;
 import com.dre.managerxl.listeners.PlayerListener;
 import com.dre.managerxl.listeners.ServerListener;
@@ -35,10 +36,10 @@ public class P extends JavaPlugin {
 	}
 	
 	/* Broadcaster */
-	private Broadcast broadcast;
+	private Broadcaster broadcaster;
 	
-	public Broadcast getBroadcast(){
-		return broadcast;
+	public Broadcaster getBroadcast(){
+		return broadcaster;
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class P extends JavaPlugin {
 		this.languageReader = new LanguageReader(new File(p.getDataFolder(), "languages/default.yml"));
 
 		// Load Broadcaster
-		this.broadcast= new Broadcast();
+		this.broadcaster= new Broadcaster();
 		
 		// Setup Permissions
 		setupPermissions();
@@ -79,10 +80,6 @@ public class P extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-
-		// Save Broadcaster
-		broadcast.save();
-		
 		// Save
 		SaveAll();
 	}
@@ -91,7 +88,6 @@ public class P extends JavaPlugin {
 	public void initSchedulers() {
 		p.getServer().getScheduler().scheduleSyncRepeatingTask(p, new Runnable() {
 			public void run() {
-				broadcast.save();
 				SaveAll();
 			}
 		}, 0L, 18000L);
@@ -104,6 +100,8 @@ public class P extends JavaPlugin {
 		} else {
 			P.p.log(Level.WARNING, getLanguageReader().get("Log_Error_PlayersSaved"));
 		}
+		
+		broadcaster.save();
 	}
 
 	public void LoadAll() {

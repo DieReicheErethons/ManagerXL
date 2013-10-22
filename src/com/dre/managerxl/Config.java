@@ -7,6 +7,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.dre.managerxl.broadcaster.Broadcaster;
+
 public class Config {
 
 	// File
@@ -45,7 +47,7 @@ public class Config {
 		this.broadcasterConfigSection = ymlFile.getConfigurationSection("Broadcaster");
 		
 		if(broadcasterConfigSection == null){
-			Broadcast.saveDefaultConfig(this);
+			Broadcaster.saveDefaultConfig(this);
 			this.broadcasterConfigSection = ymlFile.getConfigurationSection("Broadcaster");
 		}
 	}

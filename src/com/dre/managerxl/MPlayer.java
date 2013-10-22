@@ -13,7 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import com.dre.managerxl.broadcaster.BroadcastPlayerMsg;
+import com.dre.managerxl.broadcaster.BroadcasterPlayerMsg;
 
 public class MPlayer {
 	private static Set<MPlayer> mPlayers = new HashSet<MPlayer>();
@@ -30,13 +30,13 @@ public class MPlayer {
 	private long lastTeleport;
 	
 	/* BroadcasterPlayer */
-	public HashMap<Integer,BroadcastPlayerMsg> playerMsgs = new HashMap<Integer,BroadcastPlayerMsg>();
+	public HashMap<Integer,BroadcasterPlayerMsg> playerMsgs = new HashMap<Integer,BroadcasterPlayerMsg>();
 	
-	public BroadcastPlayerMsg getBMsg(int id) {
-		BroadcastPlayerMsg msg = playerMsgs.get(id);
+	public BroadcasterPlayerMsg getBMsg(int id) {
+		BroadcasterPlayerMsg msg = playerMsgs.get(id);
 		
 		if(msg == null){
-			msg = new BroadcastPlayerMsg(id, this);
+			msg = new BroadcasterPlayerMsg(id, this);
 		}
 		
 		return msg;

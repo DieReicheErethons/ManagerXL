@@ -3,7 +3,7 @@ package com.dre.managerxl.commands.managing;
 import org.bukkit.command.CommandSender;
 
 import com.dre.managerxl.P;
-import com.dre.managerxl.broadcaster.BroadcastMsg;
+import com.dre.managerxl.broadcaster.BroadcasterMsg;
 import com.dre.managerxl.commands.MCommand;
 import com.dre.managerxl.util.MUtility;
 
@@ -32,7 +32,7 @@ public class AddNews extends MCommand {
 				return;
 			}
 			
-			new BroadcastMsg(type, msg, endtime);
+			new BroadcasterMsg(type, msg, endtime);
 		}else{
 			sender.sendMessage(help);
 		}

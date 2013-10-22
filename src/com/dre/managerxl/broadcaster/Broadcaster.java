@@ -1,4 +1,4 @@
-package com.dre.managerxl;
+package com.dre.managerxl.broadcaster;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,10 +11,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import com.dre.managerxl.broadcaster.BroadcastMsg;
-import com.dre.managerxl.broadcaster.BroadcastPlayerMsg;
+import com.dre.managerxl.Config;
+import com.dre.managerxl.MPlayer;
+import com.dre.managerxl.P;
 
-public class Broadcast {
+public class Broadcaster {
 	
 	public static int maxLevel;// = 10;
 	public static int sendsPerLevel;// = 20;
@@ -36,7 +37,7 @@ public class Broadcast {
 	private File broadcastDataFile;
 	private File broadcastMsgFile;
 	
-	public Broadcast(){
+	public Broadcaster(){
 		loadConfig();
 		
 		initializeBroadcaster();
@@ -79,8 +80,8 @@ public class Broadcast {
 			public void run() {
 				Player[] players = P.p.getServer().getOnlinePlayers();
 				
-				for(Integer msgId: BroadcastMsg.messages.keySet()){
-					BroadcastMsg msg = BroadcastMsg.messages.get(msgId);
+				for(Integer msgId: BroadcasterMsg.messages.keySet()){
+					BroadcasterMsg msg = BroadcasterMsg.messages.get(msgId);
 					boolean endThisMsg = false;
 					if(msg.getEndTime()<System.currentTimeMillis()){
 						endThisMsg = true;
@@ -105,8 +106,8 @@ public class Broadcast {
 	}
 	
 	private void deleteOldMessages() {
-		for (Iterator<Map.Entry<Integer, BroadcastMsg>> it = BroadcastMsg.messages.entrySet().iterator(); it.hasNext();) {
-			Map.Entry<Integer, BroadcastMsg> entry = it.next();
+		for (Iterator<Map.Entry<Integer, BroadcasterMsg>> it = BroadcasterMsg.messages.entrySet().iterator(); it.hasNext();) {
+			Map.Entry<Integer, BroadcasterMsg> entry = it.next();
 			if (entry.getValue().isDelete()) {
 				
 				it.remove();
@@ -115,9 +116,9 @@ public class Broadcast {
 	}
 
 	private void deleteOldPlayerData() {
-		for(MPlayer bPlayer : MPlayer.get()){
-			for (Iterator<Map.Entry<Integer,BroadcastPlayerMsg>> it = bPlayer.playerMsgs.entrySet().iterator(); it.hasNext();) {
-				Map.Entry<Integer,BroadcastPlayerMsg> entry = it.next();
+		for(MPlayer mPlayer : MPlayer.get()){
+			for (Iterator<Map.Entry<Integer,BroadcasterPlayerMsg>> it = mPlayer.playerMsgs.entrySet().iterator(); it.hasNext();) {
+				Map.Entry<Integer,BroadcasterPlayerMsg> entry = it.next();
 				if (entry.getValue().getBroadcastMsg() == null) {
 					it.remove();
 					break;
@@ -127,10 +128,10 @@ public class Broadcast {
 	}
 	
 	
-	public static void broadcastMsg(Player player, BroadcastMsg msg){
+	public static void broadcastMsg(Player player, BroadcasterMsg msg){
 		
-		MPlayer bPlayer = MPlayer.getOrCreate(player.getName());
-		BroadcastPlayerMsg bMsg = bPlayer.getBMsg(msg.getId());
+		MPlayer mPlayer = MPlayer.getOrCreate(player.getName());
+		BroadcasterPlayerMsg bMsg = mPlayer.getBMsg(msg.getId());
 		
 		bMsg.setSendCount(bMsg.getSendCount()+1);
 		
@@ -151,9 +152,9 @@ public class Broadcast {
 		
 	}
 	
-	public static long getNextSendTime(Player player, BroadcastMsg msg){
-		MPlayer bPlayer = MPlayer.getOrCreate(player.getName());
-		BroadcastPlayerMsg bMsg = bPlayer.getBMsg(msg.getId());
+	public static long getNextSendTime(Player player, BroadcasterMsg msg){
+		MPlayer mPlayer = MPlayer.getOrCreate(player.getName());
+		BroadcasterPlayerMsg bMsg = mPlayer.getBMsg(msg.getId());
 		long lastSend = bMsg.getLastSend();
 		int playerLevel = bMsg.getPlayerLevel();
 		int timeDiff = maxTimeInMinutes-minTimeInMinutes;
@@ -184,11 +185,11 @@ public class Broadcast {
 	public void saveMessages(){
 		FileConfiguration file = new YamlConfiguration();
 		
-		file.set("idCounterBroadcasterVar",BroadcastMsg.idCounter);
+		file.set("idCounterBroadcasterVar",BroadcasterMsg.idCounter);
 		
 		
-		for(Integer id:BroadcastMsg.messages.keySet()){
-			BroadcastMsg message = BroadcastMsg.messages.get(id);
+		for(Integer id:BroadcasterMsg.messages.keySet()){
+			BroadcasterMsg message = BroadcasterMsg.messages.get(id);
 			file.set(id+".type", message.getType());
 			file.set(id+".msg", message.getMsg());
 			file.set(id+".endTime", message.getEndTime());
@@ -206,12 +207,12 @@ public class Broadcast {
 	public void saveData(){
 		FileConfiguration file = new YamlConfiguration();
 		
-		for(MPlayer bPlayer: MPlayer.get()){
-			for(Integer id: bPlayer.playerMsgs.keySet()){
-				BroadcastPlayerMsg bpMsg = bPlayer.playerMsgs.get(id);
-				file.set(bPlayer.getPlayer()+"."+id+".playerLevel", bpMsg.getPlayerLevel());
-				file.set(bPlayer.getPlayer()+"."+id+".sendCount", bpMsg.getSendCount());
-				file.set(bPlayer.getPlayer()+"."+id+".lastSend", bpMsg.getLastSend());
+		for(MPlayer mPlayer: MPlayer.get()){
+			for(Integer id: mPlayer.playerMsgs.keySet()){
+				BroadcasterPlayerMsg bpMsg = mPlayer.playerMsgs.get(id);
+				file.set(mPlayer.getPlayer()+"."+id+".playerLevel", bpMsg.getPlayerLevel());
+				file.set(mPlayer.getPlayer()+"."+id+".sendCount", bpMsg.getSendCount());
+				file.set(mPlayer.getPlayer()+"."+id+".lastSend", bpMsg.getLastSend());
 			}
 		}
 	}
@@ -219,7 +220,7 @@ public class Broadcast {
 	public void loadMessages(){
 		FileConfiguration file = YamlConfiguration.loadConfiguration(broadcastMsgFile);
 		
-		BroadcastMsg.idCounter = file.getInt("idCounterBroadcasterVar");
+		BroadcasterMsg.idCounter = file.getInt("idCounterBroadcasterVar");
 		
 		String type;
 		String msg;
@@ -232,26 +233,26 @@ public class Broadcast {
 				msg = file.getString(id+".msg");
 				endTime = file.getLong(id+".endTime");
 				startTime = file.getLong(id+".startTime");
-				new BroadcastMsg(Integer.parseInt(id), type, msg, endTime, startTime);
+				new BroadcasterMsg(Integer.parseInt(id), type, msg, endTime, startTime);
 			}
 		}
 	}
 	
 	public void loadData(){
 		FileConfiguration file = YamlConfiguration.loadConfiguration(broadcastDataFile);
-		MPlayer bPlayer;
+		MPlayer mPlayer;
 		int playerLevel;
 		int sendCount;
 		long lastSend;
 		
 		for(String name: file.getKeys(false)){
-			bPlayer = MPlayer.getOrCreate(name);
+			mPlayer = MPlayer.getOrCreate(name);
 			ConfigurationSection section = file.getConfigurationSection(name);
 			for(String id: section.getKeys(false)){
 				playerLevel = file.getInt(name+"."+id+".playerLevel");
 				sendCount = file.getInt(name+"."+id+".sendCount");
 				lastSend = file.getInt(name+"."+id+".lastSend");
-				new BroadcastPlayerMsg(Integer.parseInt(id), bPlayer, playerLevel, sendCount, lastSend);
+				new BroadcasterPlayerMsg(Integer.parseInt(id), mPlayer, playerLevel, sendCount, lastSend);
 			}
 		}
 	}

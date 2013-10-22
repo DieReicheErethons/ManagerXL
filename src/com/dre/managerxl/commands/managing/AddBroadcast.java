@@ -3,7 +3,7 @@ package com.dre.managerxl.commands.managing;
 import org.bukkit.command.CommandSender;
 
 import com.dre.managerxl.P;
-import com.dre.managerxl.broadcaster.BroadcastMsg;
+import com.dre.managerxl.broadcaster.BroadcasterMsg;
 import com.dre.managerxl.commands.MCommand;
 import com.dre.managerxl.util.MUtility;
 
@@ -27,7 +27,7 @@ public class AddBroadcast extends MCommand {
 			String msg = MUtility.parseMessage(args, 0);
 			long endtime = Long.MAX_VALUE;
 			
-			new BroadcastMsg(type, msg, endtime);
+			new BroadcasterMsg(type, msg, endtime);
 		}else{
 			sender.sendMessage(help);
 		}

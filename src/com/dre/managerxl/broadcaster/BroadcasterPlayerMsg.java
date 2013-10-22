@@ -2,11 +2,11 @@ package com.dre.managerxl.broadcaster;
 
 import com.dre.managerxl.MPlayer;
 
-public class BroadcastPlayerMsg {
+public class BroadcasterPlayerMsg {
 
-	BroadcastMsg msg;
+	BroadcasterMsg msg;
 	
-	MPlayer bPlayer;
+	MPlayer mPlayer;
 	
 	private int playerLevel;
 	
@@ -14,20 +14,20 @@ public class BroadcastPlayerMsg {
 	
 	private long lastSend;
 	
-	public BroadcastPlayerMsg(int id,MPlayer bPlayer, int playerLevel, int sendCount, long lastSend){
-		this.msg = BroadcastMsg.messages.get(id);
+	public BroadcasterPlayerMsg(int id, MPlayer mPlayer, int playerLevel, int sendCount, long lastSend){
+		this.msg = BroadcasterMsg.messages.get(id);
 		this.playerLevel = playerLevel;
 		this.lastSend = lastSend;
 		this.sendCount = sendCount;
-		this.bPlayer = bPlayer;
-		bPlayer.playerMsgs.put(id, this);
+		this.mPlayer = mPlayer;
+		this.mPlayer.playerMsgs.put(id, this);
 	}
 	
-	public BroadcastPlayerMsg(int id,MPlayer bPlayer){
+	public BroadcasterPlayerMsg(int id,MPlayer bPlayer){
 		this(id, bPlayer, 1, 0, 0L);
 	}
 	
-	public BroadcastMsg getBroadcastMsg(){
+	public BroadcasterMsg getBroadcastMsg(){
 		return msg;
 	}
 	

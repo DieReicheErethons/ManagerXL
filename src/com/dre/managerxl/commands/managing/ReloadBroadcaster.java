@@ -26,5 +26,4 @@ public class ReloadBroadcaster extends MCommand {
 		P.p.getBroadcast().loadData();
 		sender.sendMessage("Done!");
 	}
-
 }

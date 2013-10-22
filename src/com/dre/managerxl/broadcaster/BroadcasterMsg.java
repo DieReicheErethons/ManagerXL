@@ -4,11 +4,9 @@ import java.util.HashMap;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 
-import com.dre.managerxl.Broadcast;
-
-public class BroadcastMsg {
+public class BroadcasterMsg {
 	
-	public static HashMap<Integer, BroadcastMsg> messages = new HashMap<Integer, BroadcastMsg>();
+	public static HashMap<Integer, BroadcasterMsg> messages = new HashMap<Integer, BroadcasterMsg>();
 	
 	private int id;
 	
@@ -23,7 +21,7 @@ public class BroadcastMsg {
 
 	private boolean delete = false;
 	
-	public BroadcastMsg(int id, String type, String msg, long endTime, long startTime){
+	public BroadcasterMsg(int id, String type, String msg, long endTime, long startTime){
 		this.id=id;
 		this.type=type;
 		this.msg = msg;
@@ -33,7 +31,7 @@ public class BroadcastMsg {
 		calculateTimeLevel();
 	}
 
-	public BroadcastMsg(String type, String msg, long endTime){
+	public BroadcasterMsg(String type, String msg, long endTime){
 		this.id=idCounter;
 		idCounter++;
 		this.type=type;
@@ -69,20 +67,20 @@ public class BroadcastMsg {
 	}
 
 	public String getMsgAsBroadcast() {
-		String beginColor = Broadcast.broadcastColor;
-		String text = beginColor + "["+Broadcast.broadcastText+"]:&f" + msg;
+		String beginColor = Broadcaster.broadcastColor;
+		String text = beginColor + "["+Broadcaster.broadcastText+"]:&f" + msg;
 		return text;
 	}
 
 	public String getMsgAsNews() {
-		String beginColor = Broadcast.timeColors.get(timeLevel);
-		String text = beginColor + "["+Broadcast.newsText+"]:&f" + msg;
+		String beginColor = Broadcaster.timeColors.get(timeLevel);
+		String text = beginColor + "["+Broadcaster.newsText+"]:&f" + msg;
 		return text;
 	}
 
 	public String getMsgAsDate() {
-		String beginColor = Broadcast.timeColors.get(Broadcast.timeColors.size()-1-timeLevel);
-		String text = beginColor + "["+Broadcast.dateText+" "+DateFormatUtils.format(endTime, "dd MM yy HH:mm")+"]:&f" + msg;
+		String beginColor = Broadcaster.timeColors.get(Broadcaster.timeColors.size()-1-timeLevel);
+		String text = beginColor + "["+Broadcaster.dateText+" "+DateFormatUtils.format(endTime, "dd MM yy HH:mm")+"]:&f" + msg;
 		return text;
 	}
 	
@@ -90,7 +88,7 @@ public class BroadcastMsg {
 		long diff = endTime-startTime;
 		if(diff == 0){timeLevel = 0; return;}
 		timeLevel = (int)((System.currentTimeMillis() - diff) / 
-				(diff / Broadcast.timeColors.size()));
+				(diff / Broadcaster.timeColors.size()));
 		return;
 	}
 
