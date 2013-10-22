@@ -28,20 +28,19 @@ public class MPlayer {
 	private Location home;
 	private int gameMode = 0;
 	private long lastTeleport;
-	
+
 	/* BroadcasterPlayer */
-	public HashMap<Integer,BroadcasterPlayerMsg> playerMsgs = new HashMap<Integer,BroadcasterPlayerMsg>();
-	
+	public HashMap<Integer, BroadcasterPlayerMsg> playerMsgs = new HashMap<Integer, BroadcasterPlayerMsg>();
+
 	public BroadcasterPlayerMsg getBMsg(int id) {
 		BroadcasterPlayerMsg msg = playerMsgs.get(id);
-		
-		if(msg == null){
+
+		if (msg == null) {
 			msg = new BroadcasterPlayerMsg(id, this);
 		}
-		
+
 		return msg;
 	}
-	
 
 	public MPlayer(String name) {
 		mPlayers.add(this);
@@ -166,7 +165,7 @@ public class MPlayer {
 
 		return null;
 	}
-	
+
 	public boolean isOnline() {
 		return isOnline;
 	}
@@ -174,7 +173,7 @@ public class MPlayer {
 	public void setOnline(boolean online) {
 		isOnline = online;
 	}
-	
+
 	public boolean isBanned() {
 		if (getBannedTime() > 0) {
 			if (getUntilUnBannedTime() <= 0) {
@@ -199,7 +198,7 @@ public class MPlayer {
 			}
 		}
 	}
-	
+
 	public void setBannedTime(long l) {
 		this.bannedTime = l;
 	}
@@ -211,7 +210,7 @@ public class MPlayer {
 	public long getUntilUnBannedTime() {
 		return bannedTime - System.currentTimeMillis();
 	}
-	
+
 	public void setBannedReason(String bannedReason) {
 		this.bannedReason = bannedReason;
 	}
@@ -219,7 +218,7 @@ public class MPlayer {
 	public String getBannedReason() {
 		return bannedReason;
 	}
-	
+
 	public Location getHome() {
 		return home;
 	}
@@ -235,7 +234,7 @@ public class MPlayer {
 	public void setMuted(boolean isMuted) {
 		this.isMuted = isMuted;
 	}
-	
+
 	public int getGameMode() {
 		return gameMode;
 	}
@@ -254,8 +253,8 @@ public class MPlayer {
 		}
 
 		return false;
-	}	
-	
+	}
+
 	public boolean isVisible() {
 		return this.isVisible;
 	}
@@ -278,12 +277,12 @@ public class MPlayer {
 
 		this.isVisible = isVisible;
 	}
-	
-	public long getLastTeleport(){
+
+	public long getLastTeleport() {
 		return this.lastTeleport;
 	}
-	
-	public void setLastTeleport(long time){
+
+	public void setLastTeleport(long time) {
 		this.lastTeleport = time;
 	}
 }

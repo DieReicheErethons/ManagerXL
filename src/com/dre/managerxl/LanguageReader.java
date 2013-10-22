@@ -97,7 +97,7 @@ public class LanguageReader {
 		defaults.put("Error_CmdHome_NoHome2", "&6&v1&4 hat noch kein Home gesetzt!");
 		defaults.put("Error_CmdGameMode_NotExist", "&4GameMode &6&v1&4 existiert nicht!");
 		defaults.put("Error_DateNotParsable", "Versuche ein Datum wie '10.02.2013 12:00'");
-		
+
 		/* Format */
 		defaults.put("Format_Days", "Tage");
 		defaults.put("Format_Hours", "Stunden");

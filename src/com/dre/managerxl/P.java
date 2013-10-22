@@ -34,11 +34,11 @@ public class P extends JavaPlugin {
 	public LanguageReader getLanguageReader() {
 		return languageReader;
 	}
-	
+
 	/* Broadcaster */
 	private Broadcaster broadcaster;
-	
-	public Broadcaster getBroadcast(){
+
+	public Broadcaster getBroadcast() {
 		return broadcaster;
 	}
 
@@ -53,8 +53,8 @@ public class P extends JavaPlugin {
 		this.languageReader = new LanguageReader(new File(p.getDataFolder(), "languages/default.yml"));
 
 		// Load Broadcaster
-		this.broadcaster= new Broadcaster();
-		
+		this.broadcaster = new Broadcaster();
+
 		// Setup Permissions
 		setupPermissions();
 
@@ -67,7 +67,7 @@ public class P extends JavaPlugin {
 
 		// Init schedulers
 		initSchedulers();
-		
+
 		// Load
 		LoadAll();
 
@@ -83,8 +83,7 @@ public class P extends JavaPlugin {
 		// Save
 		SaveAll();
 	}
-	
-	
+
 	public void initSchedulers() {
 		p.getServer().getScheduler().scheduleSyncRepeatingTask(p, new Runnable() {
 			public void run() {
@@ -92,7 +91,7 @@ public class P extends JavaPlugin {
 			}
 		}, 0L, 18000L);
 	}
-	
+
 	// Save and Load
 	public void SaveAll() {
 		if (MPlayer.SaveAsYml(new File(this.getDataFolder(), "players.yml"))) {
@@ -100,7 +99,7 @@ public class P extends JavaPlugin {
 		} else {
 			P.p.log(Level.WARNING, getLanguageReader().get("Log_Error_PlayersSaved"));
 		}
-		
+
 		broadcaster.save();
 	}
 

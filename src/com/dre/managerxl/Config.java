@@ -17,8 +17,6 @@ public class Config {
 	// MotD
 	private String motd;
 
-	
-
 	public String getMotD() {
 		return this.motd;
 	}
@@ -36,26 +34,26 @@ public class Config {
 		FileConfiguration ymlFile = YamlConfiguration.loadConfiguration(this.file);
 
 		this.motd = ymlFile.getString("MotD");
-		
+
 		loadBroadcasterConfigSection(ymlFile);
-		
+
 	}
-	
+
 	private ConfigurationSection broadcasterConfigSection;
 
 	private void loadBroadcasterConfigSection(FileConfiguration ymlFile) {
 		this.broadcasterConfigSection = ymlFile.getConfigurationSection("Broadcaster");
-		
-		if(broadcasterConfigSection == null){
+
+		if (broadcasterConfigSection == null) {
 			Broadcaster.saveDefaultConfig(this);
 			this.broadcasterConfigSection = ymlFile.getConfigurationSection("Broadcaster");
 		}
 	}
-	
+
 	public ConfigurationSection getBroadcasterConfigSection() {
 		return broadcasterConfigSection;
 	}
-	
+
 	public void saveSingleConfig(String path, Object object) {
 		FileConfiguration ymlFile = YamlConfiguration.loadConfiguration(this.file);
 
@@ -68,5 +66,4 @@ public class Config {
 		}
 	}
 
-	
 }

@@ -22,15 +22,14 @@ public class AddBroadcast extends MCommand {
 
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
-		if(args.length>0){
+		if (args.length > 0) {
 			String type = "Broadcast";
 			String msg = MUtility.parseMessage(args, 0);
 			long endtime = Long.MAX_VALUE;
-			
+
 			new BroadcasterMsg(type, msg, endtime);
-		}else{
+		} else {
 			sender.sendMessage(help);
 		}
-		
 	}
 }

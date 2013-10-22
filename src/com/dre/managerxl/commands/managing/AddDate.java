@@ -22,18 +22,18 @@ public class AddDate extends MCommand {
 
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
-		if(args.length>2){
+		if (args.length > 2) {
 			String type = "Date";
 			String msg = MUtility.parseMessage(args, 2);
 			long endtime = MUtility.getStringDateToLong(args[0], args[1]);
-			
-			if(endtime == 0){
+
+			if (endtime == 0) {
 				sender.sendMessage(P.p.getLanguageReader().get("Error_DateNotParsable"));
 				return;
 			}
-			
+
 			new BroadcasterMsg(type, msg, endtime);
-		}else{
+		} else {
 			sender.sendMessage(help);
 		}
 	}

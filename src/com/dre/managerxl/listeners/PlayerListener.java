@@ -77,12 +77,12 @@ public class PlayerListener implements Listener {
 
 		player.setOnline(false);
 	}
-	
+
 	@EventHandler()
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getName());
-		
-		if(player.getHome()!=null){
+
+		if (player.getHome() != null) {
 			event.setRespawnLocation(player.getHome());
 		}
 	}
@@ -142,23 +142,23 @@ public class PlayerListener implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler()
-	public void onPlayerTeleport(PlayerTeleportEvent event){
+	public void onPlayerTeleport(PlayerTeleportEvent event) {
 		MPlayer mPlayer = MPlayer.getOrCreate(event.getPlayer().getName());
-		
+
 		mPlayer.setLastTeleport(System.currentTimeMillis());
 	}
-	
+
 	@EventHandler()
-	public void onPlayerDamage(EntityDamageEvent event){
-		if(event.getEntity() instanceof Player){
+	public void onPlayerDamage(EntityDamageEvent event) {
+		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
 			MPlayer mPlayer = MPlayer.getOrCreate(player.getName());
-			
-			if(event.getCause() == DamageCause.SUFFOCATION){
-				if(mPlayer.getLastTeleport() + 5000 > System.currentTimeMillis()){
-					player.teleport(MUtility.getNearestFreePosition(player.getLocation()));					
+
+			if (event.getCause() == DamageCause.SUFFOCATION) {
+				if (mPlayer.getLastTeleport() + 5000 > System.currentTimeMillis()) {
+					player.teleport(MUtility.getNearestFreePosition(player.getLocation()));
 				}
 			}
 		}

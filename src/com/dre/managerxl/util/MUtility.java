@@ -97,20 +97,20 @@ public class MUtility {
 
 		return result.trim();
 	}
-	
-	public static Location getNearestFreePosition(Location currentPosition){
+
+	public static Location getNearestFreePosition(Location currentPosition) {
 		Block block = currentPosition.getBlock();
-		
-		for(int y = 0; y < 256 - block.getY(); y++){
+
+		for (int y = 0; y < 256 - block.getY(); y++) {
 			Block tmpBlock = block.getRelative(BlockFace.UP, y);
-			
-			if(tmpBlock.getTypeId() == 0){
+
+			if (tmpBlock.getTypeId() == 0) {
 				if(tmpBlock.getRelative(BlockFace.UP, 1).getTypeId() == 0){
 					return tmpBlock.getLocation();
 				}
 			}
 		}
-		
+
 		return new Location(block.getWorld(), block.getX(), 256, block.getZ());
 	}
 
@@ -118,7 +118,7 @@ public class MUtility {
 		SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 		Date d = null;
 		try {
-			d = f.parse(date+" "+time);
+			d = f.parse(date + " " + time);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return 0;
