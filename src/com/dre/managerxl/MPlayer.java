@@ -128,7 +128,7 @@ public class MPlayer {
 
 			/* Ban */
 			mPlayer.setBanned(ymlFile.getBoolean(name + ".isBanned"));
-			mPlayer.setBannedTime(ymlFile.getInt(name + ".bannedTime"));
+			mPlayer.setBannedTime(ymlFile.getLong(name + ".bannedTime"));
 			mPlayer.setBannedReason(ymlFile.getString(name + ".bannedReason"));
 
 			/* Mute */
