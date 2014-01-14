@@ -290,20 +290,20 @@ public class Broadcaster {
 	public void loadConfig() {
 		ConfigurationSection broadcasterConfig = P.p.config.getBroadcasterConfigSection();
 
-		maxLevel = broadcasterConfig.getInt("Broadcaster.maxLevel");
-		sendsPerLevel = broadcasterConfig.getInt("Broadcaster.sendsPerLevel");
-		minTimeInMinutes = broadcasterConfig.getInt("Broadcaster.minTimeInMinutes");
-		maxTimeInMinutes = broadcasterConfig.getInt("Broadcaster.maxTimeInMinutes");
-		broadcastColor = broadcasterConfig.getString("Broadcaster.broadcastColor");
+		maxLevel = broadcasterConfig.getInt("maxLevel");
+		sendsPerLevel = broadcasterConfig.getInt("sendsPerLevel");
+		minTimeInMinutes = broadcasterConfig.getInt("minTimeInMinutes");
+		maxTimeInMinutes = broadcasterConfig.getInt("maxTimeInMinutes");
+		broadcastColor = broadcasterConfig.getString("broadcastColor");
 
-		broadcastText = broadcasterConfig.getString("Broadcaster.broadcastText");
-		newsText = broadcasterConfig.getString("Broadcaster.newsText");
-		dateText = broadcasterConfig.getString("Broadcaster.dateText");
+		broadcastText = broadcasterConfig.getString("broadcastText");
+		newsText = broadcasterConfig.getString("newsText");
+		dateText = broadcasterConfig.getString("dateText");
 
-		broadcastFolderName = broadcasterConfig.getString("Broadcaster.broadcastFolderName");
-		broadcastDataFileName = broadcasterConfig.getString("Broadcaster.broadcastDataFileName");
-		broadcastMsgFileName = broadcasterConfig.getString("Broadcaster.broadcastMsgFileName");
+		broadcastFolderName = broadcasterConfig.getString("broadcastFolderName");
+		broadcastDataFileName = broadcasterConfig.getString("broadcastDataFileName");
+		broadcastMsgFileName = broadcasterConfig.getString("broadcastMsgFileName");
 
-		timeColors = (ArrayList<String>) broadcasterConfig.getList("Broadcaster.timeColors");
+		timeColors = (ArrayList<String>) broadcasterConfig.getList("timeColors");
 	}
 }
