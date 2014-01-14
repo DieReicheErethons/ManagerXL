@@ -7,8 +7,8 @@ import com.dre.managerxl.broadcaster.BroadcasterMsg;
 import com.dre.managerxl.commands.MCommand;
 import com.dre.managerxl.util.MUtility;
 
-public class AddDate extends MCommand {
-	public AddDate() {
+public class CMDAddDate extends MCommand {
+	public CMDAddDate() {
 		this.command = "adddate";
 		this.parrent = null;
 		this.help = P.p.getLanguageReader().get("Help_AddDate");

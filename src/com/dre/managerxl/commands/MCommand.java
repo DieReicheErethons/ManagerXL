@@ -7,18 +7,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.dre.managerxl.P;
-import com.dre.managerxl.commands.managing.MotD;
-import com.dre.managerxl.commands.managing.MotDSet;
-import com.dre.managerxl.commands.player.Ban;
-import com.dre.managerxl.commands.player.GameMode;
-import com.dre.managerxl.commands.player.Home;
-import com.dre.managerxl.commands.player.Invisible;
-import com.dre.managerxl.commands.player.Kick;
-import com.dre.managerxl.commands.player.KickAll;
-import com.dre.managerxl.commands.player.Mute;
-import com.dre.managerxl.commands.player.SetHome;
-import com.dre.managerxl.commands.player.TimeBan;
-import com.dre.managerxl.commands.player.Unban;
+import com.dre.managerxl.commands.managing.CMDMotD;
+import com.dre.managerxl.commands.managing.CMDMotDSet;
+import com.dre.managerxl.commands.player.CMDBan;
+import com.dre.managerxl.commands.player.CMDGameMode;
+import com.dre.managerxl.commands.player.CMDHome;
+import com.dre.managerxl.commands.player.CMDInvisible;
+import com.dre.managerxl.commands.player.CMDKick;
+import com.dre.managerxl.commands.player.CMDKickAll;
+import com.dre.managerxl.commands.player.CMDMute;
+import com.dre.managerxl.commands.player.CMDSetHome;
+import com.dre.managerxl.commands.player.CMDTimeBan;
+import com.dre.managerxl.commands.player.CMDUnban;
 
 public abstract class MCommand {
 	private static MCommandExecutor commandListener = new MCommandExecutor();
@@ -77,20 +77,20 @@ public abstract class MCommand {
 	public static void initCommands() {
 
 		// Managing commands
-		new MotD();
-		new MotDSet();
+		new CMDMotD();
+		new CMDMotDSet();
 
 		// Player commands
-		new Ban();
-		new Unban();
-		new TimeBan();
-		new Home();
-		new SetHome();
-		new Kick();
-		new KickAll();
-		new Mute();
-		new GameMode();
-		new Invisible();
+		new CMDBan();
+		new CMDUnban();
+		new CMDTimeBan();
+		new CMDHome();
+		new CMDSetHome();
+		new CMDKick();
+		new CMDKickAll();
+		new CMDMute();
+		new CMDGameMode();
+		new CMDInvisible();
 	}
 
 	public static Set<MCommand> get() {

@@ -7,12 +7,12 @@ import com.dre.managerxl.broadcaster.BroadcasterMsg;
 import com.dre.managerxl.commands.MCommand;
 import com.dre.managerxl.util.MUtility;
 
-public class AddNews extends MCommand {
-	public AddNews() {
-		this.command = "addnews";
+public class CMDAddBroadcast extends MCommand {
+	public CMDAddBroadcast() {
+		this.command = "addbroadcast";
 		this.parrent = null;
-		this.help = P.p.getLanguageReader().get("Help_AddNews");
-		this.permission = "mxl.cmd.managing.addnews";
+		this.help = P.p.getLanguageReader().get("Help_AddBroadcast");
+		this.permission = "mxl.cmd.managing.addbroadcast";
 
 		this.isConsoleCommand = true;
 		this.isPlayerCommand = true;
@@ -22,20 +22,14 @@ public class AddNews extends MCommand {
 
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
-		if (args.length > 2) {
-			String type = "News";
-			String msg = MUtility.parseMessage(args, 2);
-			long endtime = MUtility.getStringDateToLong(args[0], args[1]);
-
-			if (endtime == 0) {
-				sender.sendMessage(P.p.getLanguageReader().get("Error_DateNotParsable"));
-				return;
-			}
+		if (args.length > 0) {
+			String type = "Broadcast";
+			String msg = MUtility.parseMessage(args, 0);
+			long endtime = Long.MAX_VALUE;
 
 			new BroadcasterMsg(type, msg, endtime);
 		} else {
 			sender.sendMessage(help);
 		}
-
 	}
 }

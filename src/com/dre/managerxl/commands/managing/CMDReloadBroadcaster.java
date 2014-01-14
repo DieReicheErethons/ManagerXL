@@ -5,8 +5,8 @@ import org.bukkit.command.CommandSender;
 import com.dre.managerxl.P;
 import com.dre.managerxl.commands.MCommand;
 
-public class ReloadBroadcaster extends MCommand {
-	public ReloadBroadcaster() {
+public class CMDReloadBroadcaster extends MCommand {
+	public CMDReloadBroadcaster() {
 		this.command = "reloadbroadcaster";
 		this.parrent = null;
 		this.help = P.p.getLanguageReader().get("Help_ReloadBroadcaster");
