@@ -107,8 +107,8 @@ public class MUtility {
 		for (int y = 0; y < 256 - block.getY(); y++) {
 			Block tmpBlock = block.getRelative(BlockFace.UP, y);
 
-			if (tmpBlock.getTypeId() == 0) {
-				if(tmpBlock.getRelative(BlockFace.UP, 1).getTypeId() == 0){
+			if (tmpBlock.getType() == Material.AIR) {
+				if(tmpBlock.getRelative(BlockFace.UP, 1).getType() == Material.AIR){
 					return tmpBlock.getLocation();
 				}
 			}

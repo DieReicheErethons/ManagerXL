@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -26,7 +27,7 @@ public class MPlayer {
 	private long bannedTime;
 	private String bannedReason;
 	private Location home;
-	private int gameMode = 0;
+	private GameMode gameMode = GameMode.SURVIVAL;
 	private long lastTeleport;
 
 	/* BroadcasterPlayer */
@@ -92,7 +93,7 @@ public class MPlayer {
 			ymlFile.set(player.getName() + ".isMuted", player.isMuted());
 
 			/* GameMode */
-			ymlFile.set(player.getName() + ".GameMode", player.getGameMode());
+			ymlFile.set(player.getName() + ".GameMode", player.getGameMode().name());
 
 			/* Home */
 			if (player.getHome() != null) {
@@ -134,7 +135,7 @@ public class MPlayer {
 			mPlayer.setMuted(ymlFile.getBoolean(name + ".isMuted"));
 
 			/* GameMode */
-			mPlayer.setGameMode(ymlFile.getInt(name + ".GameMode"));
+			mPlayer.setGameMode(GameMode.valueOf(ymlFile.getString(name + ".GameMode")));
 
 			/* Location */
 			if (ymlFile.contains(name + ".home")) {
@@ -235,18 +236,17 @@ public class MPlayer {
 		this.isMuted = isMuted;
 	}
 
-	public int getGameMode() {
+	public GameMode getGameMode() {
 		return gameMode;
 	}
 
-	public boolean setGameMode(int gameMode) {
-		org.bukkit.GameMode gm = org.bukkit.GameMode.getByValue(gameMode);
-		if (gm != null) {
+	public boolean setGameMode(GameMode gameMode) {
+		if (gameMode != null) {
 			this.gameMode = gameMode;
 
 			if (this.getPlayer() != null) {
-				this.getPlayer().setGameMode(gm);
-				P.p.msg(this.getPlayer(), P.p.getLanguageReader().get("Player_GameModeChanged", gm.name()));
+				this.getPlayer().setGameMode(this.gameMode);
+				P.p.msg(this.getPlayer(), P.p.getLanguageReader().get("Player_GameModeChanged", this.gameMode.name()));
 			}
 
 			return true;
