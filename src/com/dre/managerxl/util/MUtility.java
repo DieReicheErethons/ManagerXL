@@ -6,8 +6,11 @@ import java.util.Date;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.util.BlockIterator;
 
 import com.dre.managerxl.P;
 
@@ -124,5 +127,23 @@ public class MUtility {
 			return 0;
 		}
 		return d.getTime();
+	}
+	
+	public static Block getLastBlockInSight(LivingEntity entity, int distance){
+		Block block = null;
+		
+		if (entity != null) {
+			BlockIterator bit = new BlockIterator(entity, distance);
+			
+			while(bit.hasNext())
+			{
+				block = bit.next();
+				if (block.getType() != Material.AIR){
+					break;
+				}
+			}
+		}
+		
+		return block;
 	}
 }

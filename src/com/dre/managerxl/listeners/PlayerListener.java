@@ -1,7 +1,5 @@
 package com.dre.managerxl.listeners;
 
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,7 +7,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -105,36 +102,22 @@ public class PlayerListener implements Listener {
 		if (P.p.getPermissionHandler().has(player, "mxl.tool.tpcompass")) {
 			if (event.hasItem()) {
 				if (event.getItem().getType() == Material.COMPASS) {
-					Location seeLocation = null;
-					List<Block> sight = player.getLastTwoTargetBlocks(null, 100);
-					boolean hitStone = false;
+					Block lastBlockInSight = MUtility.getLastBlockInSight(player, 100);
+					
+					if(lastBlockInSight != null){
+						if(lastBlockInSight.getType() != Material.AIR){
+							Location seeLocation = lastBlockInSight.getLocation();
+							if (seeLocation != null) {
+								seeLocation.setPitch(player.getLocation().getPitch());
+								seeLocation.setYaw(player.getLocation().getYaw());
 
-					for (Block block : sight) {
-						if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
-							if (block.getTypeId() != 0) {
-								hitStone = true;
-							}
-							if (block.getTypeId() == 0 && hitStone) {
-								seeLocation = block.getLocation();
-								break;
-							}
-						} else {
-							if (block.getTypeId() != 0) {
-								seeLocation = block.getLocation();
-								break;
+								if (player.getLocation().getY() > seeLocation.getY()) {
+									seeLocation.setY(seeLocation.getY() + 1);
+								}
+
+								player.teleport(seeLocation);
 							}
 						}
-					}
-
-					if (seeLocation != null) {
-						seeLocation.setPitch(player.getLocation().getPitch());
-						seeLocation.setYaw(player.getLocation().getYaw());
-
-						if (player.getLocation().getY() > seeLocation.getY()) {
-							seeLocation.setY(seeLocation.getY() + 1);
-						}
-
-						player.teleport(seeLocation);
 					}
 
 					event.setCancelled(true);
