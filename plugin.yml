@@ -31,3 +31,11 @@ commands:
  motdset:
   aliases: [motds]
   description: Set the MotD of the server
+ addbroadcast:
+  aliases: [addbroad]
+  description: Add Broadcast the servers Broadcaster
+ addnews:
+  description: Add News the servers Broadcaster
+ adddate:
+  aliases: [addevent]
+  description: Add Date/Event the servers Broadcaster
