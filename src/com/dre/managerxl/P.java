@@ -64,12 +64,14 @@ public class P extends JavaPlugin {
 
 		// Setup Commands
 		MCommand.initCommands();
-
+		
+		// Load
+		LoadAll();
+		
 		// Init schedulers
 		initSchedulers();
 
-		// Load
-		LoadAll();
+		
 
 		// Check Dynmap
 		Plugin dynmapPlugin = Bukkit.getPluginManager().getPlugin("dynmap");
