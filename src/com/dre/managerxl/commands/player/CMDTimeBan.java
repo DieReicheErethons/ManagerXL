@@ -33,7 +33,7 @@ public class CMDTimeBan extends MCommand {
 					message = P.p.getLanguageReader().get("Cmd_Ban_DefaultReason");
 				}
 
-				int time = MUtility.getStringTimeToInt(args[1]);
+				long time = MUtility.getStringTimeToLong(args[1]);
 
 				player.setBannedTime(System.currentTimeMillis() + time);
 				player.setBannedReason(message);
