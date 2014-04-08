@@ -39,7 +39,7 @@ public class CMDTimeBan extends MCommand {
 				player.setBannedReason(message);
 				player.setBanned(true);
 
-				P.p.msg(sender, P.p.getLanguageReader().get("Cmd_TimeBan_Success", player.getName(), MUtility.getIntTimeToString(time)));
+				P.p.msg(sender, P.p.getLanguageReader().get("Cmd_TimeBan_Success", player.getName(), MUtility.getLongTimeToString(time)));
 			} else {
 				P.p.msg(sender, P.p.getLanguageReader().get("Error_CmdBan_AlreadyBanned", player.getName()));
 			}

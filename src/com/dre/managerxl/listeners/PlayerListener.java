@@ -31,7 +31,7 @@ public class PlayerListener implements Listener {
 		if (player != null) {
 			if (player.isBanned()) {
 				if (player.getUntilUnBannedTime() > 0) {
-					event.disallow(Result.KICK_OTHER, P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_TimeBan", player.getBannedReason(), MUtility.getIntTimeToString(player.getUntilUnBannedTime()))));
+					event.disallow(Result.KICK_OTHER, P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_TimeBan", player.getBannedReason(), MUtility.getLongTimeToString(player.getUntilUnBannedTime()))));
 				} else {
 					event.disallow(Result.KICK_OTHER, P.p.replaceColors(P.p.getLanguageReader().get("Player_Kick_Ban", player.getBannedReason())));
 				}
