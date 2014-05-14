@@ -2,9 +2,12 @@ package com.dre.managerxl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -15,11 +18,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.dre.managerxl.broadcaster.BroadcasterPlayerMsg;
+import com.dre.managerxl.util.UUIDFetcher;
 
 public class MPlayer {
 	private static Set<MPlayer> mPlayers = new HashSet<MPlayer>();
 
-	private String name;
+	private UUID uuid;
 	private boolean isOnline;
 	private boolean isBanned;
 	private boolean isMuted;
@@ -43,12 +47,12 @@ public class MPlayer {
 		return msg;
 	}
 
-	public MPlayer(String name) {
+	public MPlayer(UUID uuid) {
 		mPlayers.add(this);
 
-		this.name = name;
+		this.uuid = uuid;
 
-		if (Bukkit.getPlayer(name) != null) {
+		if (Bukkit.getPlayer(uuid) != null) {
 			this.setOnline(true);
 		}
 	}
@@ -58,9 +62,9 @@ public class MPlayer {
 		return mPlayers;
 	}
 
-	public static MPlayer get(String name) {
+	public static MPlayer get(UUID uuid) {
 		for (MPlayer mPlayer : mPlayers) {
-			if (mPlayer.getName().equalsIgnoreCase(name)) {
+			if (mPlayer.getUUID().equals(uuid)) {
 				return mPlayer;
 			}
 		}
@@ -68,14 +72,14 @@ public class MPlayer {
 		return null;
 	}
 
-	public static MPlayer getOrCreate(String name) {
+	public static MPlayer getOrCreate(UUID uuid) {
 		for (MPlayer mPlayer : mPlayers) {
-			if (mPlayer.getName().equalsIgnoreCase(name)) {
+			if (mPlayer.getUUID().equals(uuid)) {
 				return mPlayer;
 			}
 		}
-
-		return new MPlayer(name);
+		
+		return new MPlayer(uuid);
 	}
 
 	/* Save and Load Functions */
@@ -84,29 +88,29 @@ public class MPlayer {
 
 		for (MPlayer player : MPlayer.get()) {
 			/* Ban */
-			ymlFile.set(player.getName() + ".isBanned", player.isBanned());
-			ymlFile.set(player.getName() + ".bannedTime", player.getBannedTime());
+			ymlFile.set(player.getUUID() + ".isBanned", player.isBanned());
+			ymlFile.set(player.getUUID() + ".bannedTime", player.getBannedTime());
 			if (player.getBannedReason() != null)
-				ymlFile.set(player.getName() + ".bannedReason", player.getBannedReason());
+				ymlFile.set(player.getUUID() + ".bannedReason", player.getBannedReason());
 
 			/* Mute */
-			ymlFile.set(player.getName() + ".isMuted", player.isMuted());
+			ymlFile.set(player.getUUID() + ".isMuted", player.isMuted());
 
 			/* GameMode */
-			ymlFile.set(player.getName() + ".GameMode", player.getGameMode().name());
+			ymlFile.set(player.getUUID() + ".GameMode", player.getGameMode().name());
 
 			/* Home */
 			if (player.getHome() != null) {
-				ymlFile.set(player.getName() + ".home.x", player.getHome().getX());
-				ymlFile.set(player.getName() + ".home.y", player.getHome().getY());
-				ymlFile.set(player.getName() + ".home.z", player.getHome().getZ());
-				ymlFile.set(player.getName() + ".home.pitch", (int) player.getHome().getPitch());
-				ymlFile.set(player.getName() + ".home.yaw", (int) player.getHome().getYaw());
-				ymlFile.set(player.getName() + ".home.world", player.getHome().getWorld().getName());
+				ymlFile.set(player.getUUID() + ".home.x", player.getHome().getX());
+				ymlFile.set(player.getUUID() + ".home.y", player.getHome().getY());
+				ymlFile.set(player.getUUID() + ".home.z", player.getHome().getZ());
+				ymlFile.set(player.getUUID() + ".home.pitch", (int) player.getHome().getPitch());
+				ymlFile.set(player.getUUID() + ".home.yaw", (int) player.getHome().getYaw());
+				ymlFile.set(player.getUUID() + ".home.world", player.getHome().getWorld().getName());
 			}
 
 			/* Visible */
-			ymlFile.set(player.getName() + ".isVisible", player.isVisible());
+			ymlFile.set(player.getUUID() + ".isVisible", player.isVisible());
 		}
 
 		try {
@@ -123,45 +127,63 @@ public class MPlayer {
 
 		Set<String> keys = ymlFile.getKeys(false);
 
-		for (String name : keys) {
-			MPlayer mPlayer = new MPlayer(name);
-
-			/* Ban */
-			mPlayer.setBanned(ymlFile.getBoolean(name + ".isBanned"));
-			mPlayer.setBannedTime(ymlFile.getLong(name + ".bannedTime"));
-			mPlayer.setBannedReason(ymlFile.getString(name + ".bannedReason"));
-
-			/* Mute */
-			mPlayer.setMuted(ymlFile.getBoolean(name + ".isMuted"));
-
-			/* GameMode */
-			mPlayer.setGameMode(GameMode.valueOf(ymlFile.getString(name + ".GameMode")));
-
-			/* Location */
-			if (ymlFile.contains(name + ".home")) {
-				World world = Bukkit.getWorld(ymlFile.getString(name + ".home.world"));
-				if (world != null) {
-					Location loc = new Location(world, ymlFile.getDouble(name + ".home.x"), ymlFile.getDouble(name + ".home.y"), ymlFile.getDouble(name + ".home.z"), ymlFile.getInt(name
-							+ ".home.pitch"), ymlFile.getInt(name + ".home.yaw"));
-					mPlayer.setHome(loc);
+		for (String uuid : keys) {
+			MPlayer mPlayer = null;
+			
+			try {
+				mPlayer = new MPlayer(UUID.fromString(uuid));
+			} catch(Exception e) {
+				P.p.log("Convert " + uuid + " to the new UUID system...");
+				
+				UUIDFetcher fetcher = new UUIDFetcher(Arrays.asList(uuid));
+				
+				try {
+					Map<String, UUID> result = fetcher.call();
+					mPlayer = new MPlayer(result.get(uuid));
+					P.p.log(uuid + " has now the UUID " + result.get(uuid));
+				} catch(Exception e1) {
+					P.p.log("Exception while running UUIDFetcher");
+					e1.printStackTrace();
 				}
 			}
-
-			/* Visible */
-			mPlayer.setVisible(ymlFile.getBoolean(name + ".isVisible"));
+			
+			if (mPlayer != null) {
+				/* Ban */
+				mPlayer.setBanned(ymlFile.getBoolean(uuid + ".isBanned"));
+				mPlayer.setBannedTime(ymlFile.getLong(uuid + ".bannedTime"));
+				mPlayer.setBannedReason(ymlFile.getString(uuid + ".bannedReason"));
+	
+				/* Mute */
+				mPlayer.setMuted(ymlFile.getBoolean(uuid + ".isMuted"));
+	
+				/* GameMode */
+				mPlayer.setGameMode(GameMode.valueOf(ymlFile.getString(uuid + ".GameMode")));
+	
+				/* Location */
+				if (ymlFile.contains(uuid + ".home")) {
+					World world = Bukkit.getWorld(ymlFile.getString(uuid + ".home.world"));
+					if (world != null) {
+						Location loc = new Location(world, ymlFile.getDouble(uuid + ".home.x"), ymlFile.getDouble(uuid + ".home.y"), ymlFile.getDouble(uuid + ".home.z"), ymlFile.getInt(uuid + ".home.pitch"), ymlFile.getInt(uuid + ".home.yaw"));
+						mPlayer.setHome(loc);
+					}
+				}
+	
+				/* Visible */
+				mPlayer.setVisible(ymlFile.getBoolean(uuid + ".isVisible"));
+			}
 		}
 
 		return true;
 	}
 
 	/* Getters and Setters */
-	public String getName() {
-		return name;
+	public UUID getUUID() {
+		return uuid;
 	}
-
+	
 	public Player getPlayer() {
 		if (this.isOnline) {
-			return P.p.getServer().getPlayer(this.name);
+			return P.p.getServer().getPlayer(this.uuid);
 		}
 
 		return null;
@@ -272,7 +294,7 @@ public class MPlayer {
 
 		// Dynmap
 		if (P.p.dynmap != null) {
-			P.p.dynmap.assertPlayerInvisibility(this.getName(), !isVisible, "ManagerXL");
+			P.p.dynmap.assertPlayerInvisibility(this.getPlayer().getName(), !isVisible, "ManagerXL");
 		}
 
 		this.isVisible = isVisible;
@@ -284,5 +306,24 @@ public class MPlayer {
 
 	public void setLastTeleport(long time) {
 		this.lastTeleport = time;
+	}
+
+	public static MPlayer getFromName(String name) {
+		if(Bukkit.getPlayer(name) != null) {
+			return getOrCreate(Bukkit.getPlayer(name).getUniqueId());
+		}
+		
+		UUIDFetcher fetcher = new UUIDFetcher(Arrays.asList(name));
+		
+		Map <String, UUID> response = null;
+		try {
+			response = fetcher.call();
+			return getOrCreate(response.get(name));
+		} catch (Exception e) {
+			P.p.log("Exception while running UUIDFetcher");
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }

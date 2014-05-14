@@ -26,7 +26,7 @@ public class CMDHome extends MCommand {
 		Player player = (Player) sender;
 
 		if (args.length < 1) {
-			MPlayer mPlayer = MPlayer.getOrCreate(sender.getName());
+			MPlayer mPlayer = MPlayer.get(player.getUniqueId());
 
 			if (mPlayer.getHome() != null) {
 				player.teleport(mPlayer.getHome());
@@ -35,7 +35,7 @@ public class CMDHome extends MCommand {
 			}
 		} else {
 			if (P.p.getPermissionHandler().has(sender, "mxl.cmd.player.homeother")) {
-				MPlayer oPlayer = MPlayer.get(args[0]);
+				MPlayer oPlayer = MPlayer.getFromName(args[0]);
 				if (oPlayer != null) {
 					if (oPlayer.getHome() != null) {
 						player.teleport(oPlayer.getHome());

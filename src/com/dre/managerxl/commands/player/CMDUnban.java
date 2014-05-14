@@ -23,14 +23,14 @@ public class CMDUnban extends MCommand {
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
 		if (args.length > 0) {
-			MPlayer player = MPlayer.getOrCreate(args[0]);
+			MPlayer player = MPlayer.getFromName(args[0]);
 
 			if (player.isBanned()) {
 				player.setBanned(false);
 
-				P.p.msg(sender, P.p.getLanguageReader().get("Cmd_UnBan_Success", player.getName()));
+				P.p.msg(sender, P.p.getLanguageReader().get("Cmd_UnBan_Success", args[0]));
 			} else {
-				P.p.msg(sender, P.p.getLanguageReader().get("Error_CmdBan_NotBanned", player.getName()));
+				P.p.msg(sender, P.p.getLanguageReader().get("Error_CmdBan_NotBanned", args[0]));
 			}
 		} else {
 			P.p.msg(sender, this.help);

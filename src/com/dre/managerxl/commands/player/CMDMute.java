@@ -23,19 +23,19 @@ public class CMDMute extends MCommand {
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
 		if (args.length > 0) {
-			MPlayer mPlayer = MPlayer.get(args[0]);
+			MPlayer mPlayer = MPlayer.getFromName(args[0]);
 
 			if (mPlayer != null) {
 				if (mPlayer.isMuted()) {
 					mPlayer.setMuted(false);
-					P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Mute_UnMuted", mPlayer.getName()));
+					P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Mute_UnMuted", args[0]));
 
 					if (mPlayer.isOnline()) {
 						P.p.msg(mPlayer.getPlayer(), P.p.getLanguageReader().get("Cmd_Mute_TargetUnMuted", sender.getName()));
 					}
 				} else {
 					mPlayer.setMuted(true);
-					P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Mute_Muted", mPlayer.getName()));
+					P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Mute_Muted", args[0]));
 
 					if (mPlayer.isOnline()) {
 						P.p.msg(mPlayer.getPlayer(), P.p.getLanguageReader().get("Cmd_Mute_TargeMuted", sender.getName()));

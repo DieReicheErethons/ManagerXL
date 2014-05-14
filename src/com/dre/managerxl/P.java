@@ -41,7 +41,7 @@ public class P extends JavaPlugin {
 	public Broadcaster getBroadcast() {
 		return broadcaster;
 	}
-
+	
 	@Override
 	public void onEnable() {
 		p = this;

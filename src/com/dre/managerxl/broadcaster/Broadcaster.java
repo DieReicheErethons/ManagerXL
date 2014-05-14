@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -129,7 +130,7 @@ public class Broadcaster {
 
 	public static void broadcastMsg(Player player, BroadcasterMsg msg) {
 
-		MPlayer mPlayer = MPlayer.getOrCreate(player.getName());
+		MPlayer mPlayer = MPlayer.getOrCreate(player.getUniqueId());
 		BroadcasterPlayerMsg bMsg = mPlayer.getBMsg(msg.getId());
 
 		bMsg.setSendCount(bMsg.getSendCount() + 1);
@@ -154,7 +155,7 @@ public class Broadcaster {
 	}
 
 	public static long getNextSendTime(Player player, BroadcasterMsg msg) {
-		MPlayer mPlayer = MPlayer.getOrCreate(player.getName());
+		MPlayer mPlayer = MPlayer.getOrCreate(player.getUniqueId());
 		BroadcasterPlayerMsg bMsg = mPlayer.getBMsg(msg.getId());
 		long lastSend = bMsg.getLastSend();
 		int playerLevel = bMsg.getPlayerLevel();
@@ -245,13 +246,13 @@ public class Broadcaster {
 		int sendCount;
 		long lastSend;
 
-		for (String name : file.getKeys(false)) {
-			mPlayer = MPlayer.getOrCreate(name);
-			ConfigurationSection section = file.getConfigurationSection(name);
+		for (String uuid : file.getKeys(false)) {
+			mPlayer = MPlayer.getOrCreate(UUID.fromString(uuid));
+			ConfigurationSection section = file.getConfigurationSection(uuid);
 			for (String id : section.getKeys(false)) {
-				playerLevel = file.getInt(name + "." + id + ".playerLevel");
-				sendCount = file.getInt(name + "." + id + ".sendCount");
-				lastSend = file.getInt(name + "." + id + ".lastSend");
+				playerLevel = file.getInt(uuid + "." + id + ".playerLevel");
+				sendCount = file.getInt(uuid + "." + id + ".sendCount");
+				lastSend = file.getInt(uuid + "." + id + ".lastSend");
 				new BroadcasterPlayerMsg(Integer.parseInt(id), mPlayer, playerLevel, sendCount, lastSend);
 			}
 		}

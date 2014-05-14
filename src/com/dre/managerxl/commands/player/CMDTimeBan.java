@@ -24,7 +24,7 @@ public class CMDTimeBan extends MCommand {
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
 		if (args.length > 1) {
-			MPlayer player = MPlayer.getOrCreate(args[0]);
+			MPlayer player = MPlayer.getFromName(args[0]);
 
 			if (!player.isBanned()) {
 				String message = MUtility.parseMessage(args, 2);
@@ -39,9 +39,9 @@ public class CMDTimeBan extends MCommand {
 				player.setBannedReason(message);
 				player.setBanned(true);
 
-				P.p.msg(sender, P.p.getLanguageReader().get("Cmd_TimeBan_Success", player.getName(), MUtility.getLongTimeToString(time)));
+				P.p.msg(sender, P.p.getLanguageReader().get("Cmd_TimeBan_Success", args[0], MUtility.getLongTimeToString(time)));
 			} else {
-				P.p.msg(sender, P.p.getLanguageReader().get("Error_CmdBan_AlreadyBanned", player.getName()));
+				P.p.msg(sender, P.p.getLanguageReader().get("Error_CmdBan_AlreadyBanned", args[0]));
 			}
 		} else {
 			P.p.msg(sender, this.help);

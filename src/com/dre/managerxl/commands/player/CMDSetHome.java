@@ -24,14 +24,14 @@ public class CMDSetHome extends MCommand {
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
 		Player player = (Player) sender;
-		MPlayer mPlayer = MPlayer.getOrCreate(sender.getName());
+		MPlayer mPlayer = MPlayer.getOrCreate(player.getUniqueId());
 
 		if (args.length < 1) {
 			mPlayer.setHome(player.getLocation());
 			P.p.msg(player, P.p.getLanguageReader().get("Cmd_SetHome_Success"));
 		} else {
 			if (P.p.getPermissionHandler().has(sender, "mxl.cmd.player.sethomeother")) {
-				MPlayer oPlayer = MPlayer.get(args[0]);
+				MPlayer oPlayer = MPlayer.getFromName(args[0]);
 				if (oPlayer != null) {
 					oPlayer.setHome(player.getLocation());
 					P.p.msg(player, P.p.getLanguageReader().get("Cmd_SetHome_Success"));

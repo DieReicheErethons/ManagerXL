@@ -25,7 +25,9 @@ public class CMDInvisible extends MCommand {
 	public void onExecute(String[] args, CommandSender sender) {
 		if (args.length < 1) {
 			if (sender instanceof Player) {
-				MPlayer mPlayer = MPlayer.getOrCreate(sender.getName());
+				Player player = (Player) sender;
+				
+				MPlayer mPlayer = MPlayer.getOrCreate(player.getUniqueId());
 
 				if (mPlayer.isVisible()) {
 					mPlayer.setVisible(false);
@@ -41,20 +43,20 @@ public class CMDInvisible extends MCommand {
 			}
 		} else {
 			if (P.p.getPermissionHandler().has(sender, "mxl.cmd.player.invisibleother")) {
-				MPlayer oPlayer = MPlayer.get(args[0]);
+				MPlayer oPlayer = MPlayer.getFromName(args[0]);
 
 				if (oPlayer != null) {
 					if (oPlayer.isVisible()) {
 						oPlayer.setVisible(false);
 
-						P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Visible_InvisibleOther", oPlayer.getName()));
+						P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Visible_InvisibleOther", args[0]));
 						if (oPlayer.getPlayer() != null) {
-							P.p.msg(oPlayer.getPlayer(), P.p.getLanguageReader().get("Cmd_Visible_Invisible", oPlayer.getName()));
+							P.p.msg(oPlayer.getPlayer(), P.p.getLanguageReader().get("Cmd_Visible_Invisible", args[0]));
 						}
 					} else {
 						oPlayer.setVisible(true);
 
-						P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Visible_VisibleOther", oPlayer.getName()));
+						P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Visible_VisibleOther", args[0]));
 						if (oPlayer.getPlayer() != null) {
 							P.p.msg(oPlayer.getPlayer(), P.p.getLanguageReader().get("Cmd_Visible_Visible"));
 						}

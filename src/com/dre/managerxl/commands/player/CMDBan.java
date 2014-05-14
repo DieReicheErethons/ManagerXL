@@ -24,7 +24,7 @@ public class CMDBan extends MCommand {
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
 		if (args.length > 0) {
-			MPlayer player = MPlayer.getOrCreate(args[0]);
+			MPlayer player = MPlayer.getFromName(args[0]);
 
 			if (!player.isBanned()) {
 				String message = MUtility.parseMessage(args, 1);
@@ -37,9 +37,9 @@ public class CMDBan extends MCommand {
 				player.setBannedTime(0);
 				player.setBanned(true);
 
-				P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Ban_Success", player.getName()));
+				P.p.msg(sender, P.p.getLanguageReader().get("Cmd_Ban_Success", args[0]));
 			} else {
-				P.p.msg(sender, P.p.getLanguageReader().get("Error_CmdBan_AlreadyBanned", player.getName()));
+				P.p.msg(sender, P.p.getLanguageReader().get("Error_CmdBan_AlreadyBanned", args[0]));
 			}
 		} else {
 			P.p.msg(sender, this.help);

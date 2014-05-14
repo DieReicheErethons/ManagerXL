@@ -24,7 +24,7 @@ public class CMDGameMode extends MCommand {
 
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
-		MPlayer player = MPlayer.getOrCreate(sender.getName());
+		MPlayer player = MPlayer.getFromName(sender.getName());
 
 		if (player.getPlayer() != null) {
 			if (args.length < 1) {
@@ -34,7 +34,7 @@ public class CMDGameMode extends MCommand {
 					player.setGameMode(GameMode.CREATIVE);
 				}
 			} else {
-				MPlayer targetPlayer = MPlayer.get(args[0]);
+				MPlayer targetPlayer = MPlayer.getFromName(args[0]);
 				if (targetPlayer != null) {
 					if (args.length < 2) {
 						if (targetPlayer.getGameMode() == GameMode.CREATIVE) {
@@ -44,7 +44,7 @@ public class CMDGameMode extends MCommand {
 						}
 
 						if (targetPlayer != player) {
-							P.p.msg(sender, P.p.getLanguageReader().get("Player_TargetGameModeChanged", targetPlayer.getGameMode().name(), targetPlayer.getName()));
+							P.p.msg(sender, P.p.getLanguageReader().get("Player_TargetGameModeChanged", targetPlayer.getGameMode().name(), args[0]));
 						}
 					} else {
 						int gm = -1;
@@ -68,7 +68,7 @@ public class CMDGameMode extends MCommand {
 						
 						if (targetPlayer.setGameMode(gameMode)) {
 							if (targetPlayer != player) {
-								P.p.msg(sender, P.p.getLanguageReader().get("Player_TargetGameModeChanged", targetPlayer.getGameMode().name(), targetPlayer.getName()));
+								P.p.msg(sender, P.p.getLanguageReader().get("Player_TargetGameModeChanged", targetPlayer.getGameMode().name(), args[0]));
 							}
 						} else {
 							P.p.msg(sender, P.p.getLanguageReader().get("Error_CmdGameMode_NotExist", args[1]));

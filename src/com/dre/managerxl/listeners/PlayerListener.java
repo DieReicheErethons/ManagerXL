@@ -26,7 +26,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler()
 	public void onPlayerLogin(PlayerLoginEvent event) {
-		MPlayer player = MPlayer.get(event.getPlayer().getName());
+		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getUniqueId());
 
 		if (player != null) {
 			if (player.isBanned()) {
@@ -41,7 +41,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler()
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getName());
+		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getUniqueId());
 
 		player.setOnline(true);
 		player.setGameMode(player.getGameMode());
@@ -50,7 +50,7 @@ public class PlayerListener implements Listener {
 		if (!player.isVisible()) {
 			for (Player oPlayer : Bukkit.getOnlinePlayers()) {
 				oPlayer.hidePlayer(player.getPlayer());
-				MPlayer omPlayer = MPlayer.getOrCreate(oPlayer.getName());
+				MPlayer omPlayer = MPlayer.getOrCreate(oPlayer.getUniqueId());
 				if (!omPlayer.isVisible()) {
 					player.getPlayer().hidePlayer(oPlayer);
 				}
@@ -59,25 +59,21 @@ public class PlayerListener implements Listener {
 
 		// Set invisible for Dynmap
 		if (P.p.dynmap != null) {
-			P.p.dynmap.assertPlayerInvisibility(player.getName(), !player.isVisible(), "ManagerXL");
+			P.p.dynmap.assertPlayerInvisibility(player.getPlayer().getName(), !player.isVisible(), "ManagerXL");
 		}
 
 	}
 
 	@EventHandler()
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		MPlayer player = MPlayer.get(event.getPlayer().getName());
-
-		if (player == null) {
-			player = new MPlayer(event.getPlayer().getName());
-		}
+		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getUniqueId());
 
 		player.setOnline(false);
 	}
 
 	@EventHandler()
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
-		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getName());
+		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getUniqueId());
 
 		if (player.getHome() != null) {
 			event.setRespawnLocation(player.getHome());
@@ -86,7 +82,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler()
 	public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
-		MPlayer mPlayer = MPlayer.getOrCreate(event.getPlayer().getName());
+		MPlayer mPlayer = MPlayer.getOrCreate(event.getPlayer().getUniqueId());
 
 		if (mPlayer.isMuted()) {
 			P.p.msg(event.getPlayer(), P.p.getLanguageReader().get("Player_Muted"));
@@ -128,7 +124,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler()
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
-		MPlayer mPlayer = MPlayer.getOrCreate(event.getPlayer().getName());
+		MPlayer mPlayer = MPlayer.getOrCreate(event.getPlayer().getUniqueId());
 
 		mPlayer.setLastTeleport(System.currentTimeMillis());
 	}
@@ -137,7 +133,7 @@ public class PlayerListener implements Listener {
 	public void onPlayerDamage(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
-			MPlayer mPlayer = MPlayer.getOrCreate(player.getName());
+			MPlayer mPlayer = MPlayer.getOrCreate(player.getUniqueId());
 
 			if (event.getCause() == DamageCause.SUFFOCATION) {
 				if (mPlayer.getLastTeleport() + 5000 > System.currentTimeMillis()) {
