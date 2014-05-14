@@ -29,18 +29,18 @@ public class CMDGameMode extends MCommand {
 		if (player.getPlayer() != null) {
 			if (args.length < 1) {
 				if (player.getGameMode() == GameMode.CREATIVE) {
-					player.setGameMode(GameMode.SURVIVAL);
+					player.setGameMode(GameMode.SURVIVAL, true);
 				} else {
-					player.setGameMode(GameMode.CREATIVE);
+					player.setGameMode(GameMode.CREATIVE, true);
 				}
 			} else {
 				MPlayer targetPlayer = MPlayer.getFromName(args[0]);
 				if (targetPlayer != null) {
 					if (args.length < 2) {
 						if (targetPlayer.getGameMode() == GameMode.CREATIVE) {
-							targetPlayer.setGameMode(GameMode.SURVIVAL);
+							targetPlayer.setGameMode(GameMode.SURVIVAL, true);
 						} else {
-							targetPlayer.setGameMode(GameMode.CREATIVE);
+							targetPlayer.setGameMode(GameMode.CREATIVE, true);
 						}
 
 						if (targetPlayer != player) {
@@ -66,7 +66,7 @@ public class CMDGameMode extends MCommand {
 						if(gm == 2 || gmString.equalsIgnoreCase("adventure")) 
 							gameMode = GameMode.ADVENTURE;
 						
-						if (targetPlayer.setGameMode(gameMode)) {
+						if (targetPlayer.setGameMode(gameMode, true)) {
 							if (targetPlayer != player) {
 								P.p.msg(sender, P.p.getLanguageReader().get("Player_TargetGameModeChanged", targetPlayer.getGameMode().name(), args[0]));
 							}

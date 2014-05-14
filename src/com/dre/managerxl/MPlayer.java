@@ -157,7 +157,7 @@ public class MPlayer {
 				mPlayer.setMuted(ymlFile.getBoolean(uuid + ".isMuted"));
 	
 				/* GameMode */
-				mPlayer.setGameMode(GameMode.valueOf(ymlFile.getString(uuid + ".GameMode")));
+				mPlayer.setGameMode(GameMode.valueOf(ymlFile.getString(uuid + ".GameMode")), false);
 	
 				/* Location */
 				if (ymlFile.contains(uuid + ".home")) {
@@ -262,13 +262,15 @@ public class MPlayer {
 		return gameMode;
 	}
 
-	public boolean setGameMode(GameMode gameMode) {
+	public boolean setGameMode(GameMode gameMode, boolean msg) {
 		if (gameMode != null) {
 			this.gameMode = gameMode;
 
 			if (this.getPlayer() != null) {
 				this.getPlayer().setGameMode(this.gameMode);
-				P.p.msg(this.getPlayer(), P.p.getLanguageReader().get("Player_GameModeChanged", this.gameMode.name()));
+				if (msg) {
+					P.p.msg(this.getPlayer(), P.p.getLanguageReader().get("Player_GameModeChanged", this.gameMode.name()));
+				}
 			}
 
 			return true;

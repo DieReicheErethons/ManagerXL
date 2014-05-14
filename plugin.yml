@@ -1,5 +1,5 @@
 name: ManagerXL
-version: 0.1
+version: 0.3
 main: com.dre.managerxl.P
 authors: [Frank Baumann, Tobias Schmitz, Joscha Schmitz]
 softdepend: [Vault]

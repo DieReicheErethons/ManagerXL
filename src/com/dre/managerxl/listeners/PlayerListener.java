@@ -44,7 +44,7 @@ public class PlayerListener implements Listener {
 		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getUniqueId());
 
 		player.setOnline(true);
-		player.setGameMode(player.getGameMode());
+		player.setGameMode(player.getGameMode(), false);
 
 		// Set invisible Players
 		if (!player.isVisible()) {
