@@ -2,6 +2,7 @@ package com.dre.managerxl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -126,12 +127,48 @@ public class MPlayer {
 		FileConfiguration ymlFile = YamlConfiguration.loadConfiguration(file);
 
 		Set<String> keys = ymlFile.getKeys(false);
-
+		
+		
+		HashMap<String, String> uuidMapping = new HashMap<String, String>();
+		boolean excepted = false;
+		ArrayList<String> uuidFails = new ArrayList<String>();
 		for (String uuid : keys) {
-			MPlayer mPlayer = null;
+			try{
+				UUID.fromString(uuid);
+				uuidMapping.put(uuid, uuid);
+			}catch(Exception e){
+				excepted = true;
+				P.p.log("Convert " + uuid + " to the new UUID system...");
+				uuidFails.add(uuid);
+			}
+		}
+		if(excepted){
+			UUIDFetcher fetcher = new UUIDFetcher(uuidFails);
 			
 			try {
-				mPlayer = new MPlayer(UUID.fromString(uuid));
+				Map<String, UUID> result = fetcher.call();
+				for(String resultKey: result.keySet()){
+					uuidMapping.put(resultKey, result.get(resultKey).toString());
+					P.p.log(resultKey + " has now the UUID " + result.get(resultKey).toString());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+		
+		for (String uuid : keys) {
+			MPlayer mPlayer = null;
+			String uuidString = uuidMapping.get(uuid);
+			
+			if(uuidString == null || uuidString.equalsIgnoreCase("null")){
+				continue;
+			}
+			
+			try {
+				mPlayer = new MPlayer(UUID.fromString(uuidString));
 			} catch(Exception e) {
 				P.p.log("Convert " + uuid + " to the new UUID system...");
 				
@@ -172,7 +209,9 @@ public class MPlayer {
 				mPlayer.setVisible(ymlFile.getBoolean(uuid + ".isVisible"));
 			}
 		}
-
+		if(excepted){
+			SaveAsYml(file);
+		}
 		return true;
 	}
 
