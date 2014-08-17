@@ -65,8 +65,10 @@ public class MPlayer {
 
 	public static MPlayer get(UUID uuid) {
 		for (MPlayer mPlayer : mPlayers) {
-			if (mPlayer.getUUID().equals(uuid)) {
-				return mPlayer;
+			if (mPlayer != null){
+				if (mPlayer.getUUID().equals(uuid)) {
+					return mPlayer;
+				}
 			}
 		}
 
@@ -75,8 +77,10 @@ public class MPlayer {
 
 	public static MPlayer getOrCreate(UUID uuid) {
 		for (MPlayer mPlayer : mPlayers) {
-			if (mPlayer.getUUID().equals(uuid)) {
-				return mPlayer;
+			if (mPlayer != null){
+				if (mPlayer.getUUID().equals(uuid)) {
+					return mPlayer;
+				}
 			}
 		}
 		
