@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -92,6 +93,8 @@ public class MPlayer {
 		FileConfiguration ymlFile = new YamlConfiguration();
 
 		for (MPlayer player : MPlayer.get()) {
+			if (player==null)
+				continue;
 			/* Ban */
 			ymlFile.set(player.getUUID() + ".isBanned", player.isBanned());
 			ymlFile.set(player.getUUID() + ".bannedTime", player.getBannedTime());
@@ -116,6 +119,9 @@ public class MPlayer {
 
 			/* Visible */
 			ymlFile.set(player.getUUID() + ".isVisible", player.isVisible());
+			
+			if(player.getOfflinePlayer()!=null)
+				ymlFile.set(player.getUUID() + ".lastPlayerName", player.getOfflinePlayer().getName());
 		}
 
 		try {
@@ -352,7 +358,15 @@ public class MPlayer {
 	public void setLastTeleport(long time) {
 		this.lastTeleport = time;
 	}
-
+	
+	public OfflinePlayer getOfflinePlayer(){
+		try{
+			return P.p.getServer().getOfflinePlayer(this.uuid);
+		}catch(Exception e){
+			return null;
+		}
+	}
+	
 	public static MPlayer getFromName(String name) {
 		if(Bukkit.getPlayer(name) != null) {
 			return getOrCreate(Bukkit.getPlayer(name).getUniqueId());
