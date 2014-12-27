@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -43,7 +42,6 @@ public class PlayerListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getUniqueId());
 
-		player.setOnline(true);
 		player.setGameMode(player.getGameMode(), false);
 
 		// Set invisible Players
@@ -65,26 +63,19 @@ public class PlayerListener implements Listener {
 	}
 
 	@EventHandler()
-	public void onPlayerQuit(PlayerQuitEvent event) {
-		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getUniqueId());
-
-		player.setOnline(false);
-	}
-
-	@EventHandler()
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
-		MPlayer player = MPlayer.getOrCreate(event.getPlayer().getUniqueId());
+		MPlayer player = MPlayer.get(event.getPlayer().getUniqueId());
 
-		if (player.getHome() != null) {
+		if (player != null && player.getHome() != null) {
 			event.setRespawnLocation(player.getHome());
 		}
 	}
 
 	@EventHandler()
 	public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
-		MPlayer mPlayer = MPlayer.getOrCreate(event.getPlayer().getUniqueId());
+		MPlayer player = MPlayer.get(event.getPlayer().getUniqueId());
 
-		if (mPlayer.isMuted()) {
+		if (player != null && player.isMuted()) {
 			P.p.msg(event.getPlayer(), P.p.getLanguageReader().get("Player_Muted"));
 			event.setCancelled(true);
 		}
@@ -124,21 +115,23 @@ public class PlayerListener implements Listener {
 
 	@EventHandler()
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
-		MPlayer mPlayer = MPlayer.getOrCreate(event.getPlayer().getUniqueId());
-
-		mPlayer.setLastTeleport(System.currentTimeMillis());
+		MPlayer player = MPlayer.get(event.getPlayer().getUniqueId());
+		
+		if (player != null) {
+			player.setLastTeleport(System.currentTimeMillis());
+		}
 	}
 
 	@EventHandler()
 	public void onPlayerDamage(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
-			MPlayer mPlayer = MPlayer.getOrCreate(player.getUniqueId());
+			MPlayer mPlayer = MPlayer.get(player.getUniqueId());
 
-			if (event.getCause() == DamageCause.SUFFOCATION) {
-				if (mPlayer.getLastTeleport() + 5000 > System.currentTimeMillis()) {
-					player.teleport(MUtility.getNearestFreePosition(player.getLocation()));
-				}
+			if (mPlayer != null
+					&& event.getCause() == DamageCause.SUFFOCATION
+					&& mPlayer.getLastTeleport() + 5000 > System.currentTimeMillis()) {
+				player.teleport(MUtility.getNearestFreePosition(player.getLocation()));
 			}
 		}
 	}

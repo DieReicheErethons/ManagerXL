@@ -26,7 +26,7 @@ public class CMDInvisible extends MCommand {
 		if (args.length < 1) {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
-				
+
 				MPlayer mPlayer = MPlayer.getOrCreate(player.getUniqueId());
 
 				if (mPlayer.isVisible()) {

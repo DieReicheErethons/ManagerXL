@@ -24,6 +24,7 @@ public class CMDSetHome extends MCommand {
 	@Override
 	public void onExecute(String[] args, CommandSender sender) {
 		Player player = (Player) sender;
+		
 		MPlayer mPlayer = MPlayer.getOrCreate(player.getUniqueId());
 
 		if (args.length < 1) {

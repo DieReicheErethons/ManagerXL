@@ -129,7 +129,6 @@ public class Broadcaster {
 	}
 
 	public static void broadcastMsg(Player player, BroadcasterMsg msg) {
-
 		MPlayer mPlayer = MPlayer.getOrCreate(player.getUniqueId());
 		BroadcasterPlayerMsg bMsg = mPlayer.getBMsg(msg.getId());
 

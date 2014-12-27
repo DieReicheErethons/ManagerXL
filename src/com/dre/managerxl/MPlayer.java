@@ -26,7 +26,6 @@ public class MPlayer {
 	private static Set<MPlayer> mPlayers = new HashSet<MPlayer>();
 
 	private UUID uuid;
-	private boolean isOnline;
 	private boolean isBanned;
 	private boolean isMuted;
 	private boolean isVisible = true;
@@ -53,10 +52,6 @@ public class MPlayer {
 		mPlayers.add(this);
 
 		this.uuid = uuid;
-
-		if (Bukkit.getPlayer(uuid) != null) {
-			this.setOnline(true);
-		}
 	}
 
 	/* Statics */
@@ -85,13 +80,17 @@ public class MPlayer {
 			}
 		}
 		
+		P.p.log("Player " + uuid + " not recognized, creating a new one!");
+		
 		return new MPlayer(uuid);
 	}
 
 	/* Save and Load Functions */
 	public static boolean SaveAsYml(File file) {
 		FileConfiguration ymlFile = new YamlConfiguration();
-
+		
+		P.p.log("Playercount " + MPlayer.get().size());
+		
 		for (MPlayer player : MPlayer.get()) {
 			if (player==null)
 				continue;
@@ -166,10 +165,20 @@ public class MPlayer {
 			}
 		}
 		
-		
-		
-		
 		for (String uuid : keys) {
+			
+			if (
+					!ymlFile.getBoolean(uuid + ".isBanned") &&
+					ymlFile.getLong(uuid + ".bannedTime") == 0 &&
+					!ymlFile.getBoolean(uuid + ".isMuted") &&
+					ymlFile.getString(uuid + ".GameMode").equals("SURVIVAL") &&
+					!ymlFile.contains(uuid + ".home") &&
+					ymlFile.getBoolean(uuid + ".isVisible")
+					) {
+				P.p.log("SKIP");
+				continue;
+			}
+			
 			MPlayer mPlayer = null;
 			String uuidString = uuidMapping.get(uuid);
 			
@@ -224,26 +233,22 @@ public class MPlayer {
 		}
 		return true;
 	}
-
+	
+	public boolean isOnline() {
+		if (this.getPlayer() != null && this.getPlayer().isOnline()) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/* Getters and Setters */
 	public UUID getUUID() {
 		return uuid;
 	}
 	
 	public Player getPlayer() {
-		if (this.isOnline) {
-			return P.p.getServer().getPlayer(this.uuid);
-		}
-
-		return null;
-	}
-
-	public boolean isOnline() {
-		return isOnline;
-	}
-
-	public void setOnline(boolean online) {
-		isOnline = online;
+		return P.p.getServer().getPlayer(this.uuid);
 	}
 
 	public boolean isBanned() {
@@ -376,7 +381,7 @@ public class MPlayer {
 		
 		Map <String, UUID> response = null;
 		try {
-			response = fetcher.call();
+			response = fetcher.call();			
 			return getOrCreate(response.get(name));
 		} catch (Exception e) {
 			P.p.log("Exception while running UUIDFetcher");
